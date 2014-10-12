@@ -17,8 +17,8 @@ using namespace cv;
 
 int main (int argc, const char * argv[])
 {
-	Mat src1 = imread("/Users/alberto/Desktop/dev/computer-vision/computer-vision/images/cat.bmp");
-	Mat src2 = imread("/Users/alberto/Desktop/dev/computer-vision/computer-vision/images/dog.bmp");
+	Mat src1 = imread("/Users/alberto/Desktop/dev/computer-vision/src/images/cat.bmp");
+	Mat src2 = imread("/Users/alberto/Desktop/dev/computer-vision/src/images/dog.bmp");
 	Mat dst;
 
 	if( !src1.data ) { printf("Error loading src1 \n"); return -1; }

@@ -91,7 +91,7 @@
 				D3BFBB6119EAF65200E1BCE7 /* libopencv_core.2.4.9.dylib */,
 				D3BFBB5F19EAF64E00E1BCE7 /* libopencv_highgui.2.4.9.dylib */,
 				D3BFBB5D19EAF64B00E1BCE7 /* libopencv_imgproc.2.4.9.dylib */,
-				D3FEA54F19EAF3FA002B7F08 /* computer-vision */,
+				D3FEA54F19EAF3FA002B7F08 /* src */,
 				D3FEA54E19EAF3FA002B7F08 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -104,7 +104,7 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		D3FEA54F19EAF3FA002B7F08 /* computer-vision */ = {
+		D3FEA54F19EAF3FA002B7F08 /* src */ = {
 			isa = PBXGroup;
 			children = (
 				D3BFBB7819EB087200E1BCE7 /* aux.cpp */,
@@ -116,7 +116,7 @@
 				D3BFBB6719EAFC0A00E1BCE7 /* images */,
 				D3BFBB6319EAF96400E1BCE7 /* README.md */,
 			);
-			path = "computer-vision";
+			path = src;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
