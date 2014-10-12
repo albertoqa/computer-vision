@@ -1,4 +1,4 @@
 computer-vision
 ===============
 
-computer vision assignments and tests
+computer vision test and some assignments
