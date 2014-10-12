@@ -10,8 +10,6 @@
 		D3BFBB5E19EAF64B00E1BCE7 /* libopencv_imgproc.2.4.9.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D3BFBB5D19EAF64B00E1BCE7 /* libopencv_imgproc.2.4.9.dylib */; };
 		D3BFBB6019EAF64E00E1BCE7 /* libopencv_highgui.2.4.9.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D3BFBB5F19EAF64E00E1BCE7 /* libopencv_highgui.2.4.9.dylib */; };
 		D3BFBB6219EAF65200E1BCE7 /* libopencv_core.2.4.9.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D3BFBB6119EAF65200E1BCE7 /* libopencv_core.2.4.9.dylib */; };
-		D3BFBB6419EAF96400E1BCE7 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = D3BFBB6319EAF96400E1BCE7 /* README.md */; };
-		D3BFBB6A19EAFC5E00E1BCE7 /* blend.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D3BFBB6919EAFC5E00E1BCE7 /* blend.cpp */; };
 		D3FEA55119EAF3FB002B7F08 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D3FEA55019EAF3FA002B7F08 /* main.cpp */; };
 /* End PBXBuildFile section */
 
@@ -34,6 +32,16 @@
 		D3BFBB6319EAF96400E1BCE7 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
 		D3BFBB6819EAFC0A00E1BCE7 /* lena.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = lena.jpg; sourceTree = "<group>"; };
 		D3BFBB6919EAFC5E00E1BCE7 /* blend.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = blend.cpp; sourceTree = "<group>"; };
+		D3BFBB6B19EAFF9800E1BCE7 /* bicycle.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = bicycle.bmp; sourceTree = "<group>"; };
+		D3BFBB6C19EAFF9800E1BCE7 /* bird.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = bird.bmp; sourceTree = "<group>"; };
+		D3BFBB6D19EAFF9800E1BCE7 /* cat.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = cat.bmp; sourceTree = "<group>"; };
+		D3BFBB6E19EAFF9800E1BCE7 /* dog.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = dog.bmp; sourceTree = "<group>"; };
+		D3BFBB6F19EAFF9800E1BCE7 /* einstein.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = einstein.bmp; sourceTree = "<group>"; };
+		D3BFBB7019EAFF9800E1BCE7 /* fish.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = fish.bmp; sourceTree = "<group>"; };
+		D3BFBB7119EAFF9800E1BCE7 /* marilyn.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = marilyn.bmp; sourceTree = "<group>"; };
+		D3BFBB7219EAFF9800E1BCE7 /* motorcycle.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = motorcycle.bmp; sourceTree = "<group>"; };
+		D3BFBB7319EAFF9800E1BCE7 /* plane.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = plane.bmp; sourceTree = "<group>"; };
+		D3BFBB7419EAFF9800E1BCE7 /* submarine.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = submarine.bmp; sourceTree = "<group>"; };
 		D3FEA54D19EAF3FA002B7F08 /* computer-vision */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "computer-vision"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D3FEA55019EAF3FA002B7F08 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -55,6 +63,16 @@
 		D3BFBB6719EAFC0A00E1BCE7 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				D3BFBB6B19EAFF9800E1BCE7 /* bicycle.bmp */,
+				D3BFBB6C19EAFF9800E1BCE7 /* bird.bmp */,
+				D3BFBB6D19EAFF9800E1BCE7 /* cat.bmp */,
+				D3BFBB6E19EAFF9800E1BCE7 /* dog.bmp */,
+				D3BFBB6F19EAFF9800E1BCE7 /* einstein.bmp */,
+				D3BFBB7019EAFF9800E1BCE7 /* fish.bmp */,
+				D3BFBB7119EAFF9800E1BCE7 /* marilyn.bmp */,
+				D3BFBB7219EAFF9800E1BCE7 /* motorcycle.bmp */,
+				D3BFBB7319EAFF9800E1BCE7 /* plane.bmp */,
+				D3BFBB7419EAFF9800E1BCE7 /* submarine.bmp */,
 				D3BFBB6819EAFC0A00E1BCE7 /* lena.jpg */,
 			);
 			path = images;
@@ -146,9 +164,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D3BFBB6419EAF96400E1BCE7 /* README.md in Sources */,
 				D3FEA55119EAF3FB002B7F08 /* main.cpp in Sources */,
-				D3BFBB6A19EAFC5E00E1BCE7 /* blend.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
