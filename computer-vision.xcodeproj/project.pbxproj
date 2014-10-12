@@ -11,6 +11,7 @@
 		D3BFBB6019EAF64E00E1BCE7 /* libopencv_highgui.2.4.9.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D3BFBB5F19EAF64E00E1BCE7 /* libopencv_highgui.2.4.9.dylib */; };
 		D3BFBB6219EAF65200E1BCE7 /* libopencv_core.2.4.9.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D3BFBB6119EAF65200E1BCE7 /* libopencv_core.2.4.9.dylib */; };
 		D3BFBB6419EAF96400E1BCE7 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = D3BFBB6319EAF96400E1BCE7 /* README.md */; };
+		D3BFBB6A19EAFC5E00E1BCE7 /* blend.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D3BFBB6919EAFC5E00E1BCE7 /* blend.cpp */; };
 		D3FEA55119EAF3FB002B7F08 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D3FEA55019EAF3FA002B7F08 /* main.cpp */; };
 /* End PBXBuildFile section */
 
@@ -32,6 +33,7 @@
 		D3BFBB6119EAF65200E1BCE7 /* libopencv_core.2.4.9.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libopencv_core.2.4.9.dylib; path = ../../../../../opt/local/lib/libopencv_core.2.4.9.dylib; sourceTree = "<group>"; };
 		D3BFBB6319EAF96400E1BCE7 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
 		D3BFBB6819EAFC0A00E1BCE7 /* lena.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = lena.jpg; sourceTree = "<group>"; };
+		D3BFBB6919EAFC5E00E1BCE7 /* blend.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = blend.cpp; sourceTree = "<group>"; };
 		D3FEA54D19EAF3FA002B7F08 /* computer-vision */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "computer-vision"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D3FEA55019EAF3FA002B7F08 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -80,6 +82,7 @@
 		D3FEA54F19EAF3FA002B7F08 /* computer-vision */ = {
 			isa = PBXGroup;
 			children = (
+				D3BFBB6919EAFC5E00E1BCE7 /* blend.cpp */,
 				D3BFBB6719EAFC0A00E1BCE7 /* images */,
 				D3BFBB6319EAF96400E1BCE7 /* README.md */,
 				D3FEA55019EAF3FA002B7F08 /* main.cpp */,
@@ -145,6 +148,7 @@
 			files = (
 				D3BFBB6419EAF96400E1BCE7 /* README.md in Sources */,
 				D3FEA55119EAF3FB002B7F08 /* main.cpp in Sources */,
+				D3BFBB6A19EAFC5E00E1BCE7 /* blend.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
