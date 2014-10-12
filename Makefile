@@ -8,13 +8,13 @@ vc: main.o blend.o aux.o
 	$(CC) -o executable $(LIBS) main.o blend.o aux.o
 
 main.o:
-	$(CC) $(CXXFLAGS) -c main.cpp
+	$(CC) $(CXXFLAGS) -c ./src/main.cpp
 
 blend.o:
-	$(CC) $(CXXFLAGS) -c blend.cpp
+	$(CC) $(CXXFLAGS) -c ./src/blend.cpp
 
 aux.o:
-	$(CC) $(CXXFLAGS) -c aux.cpp
+	$(CC) $(CXXFLAGS) -c ./src/aux.cpp
 
 clean:
 	rm -rf *.o

@@ -11,7 +11,6 @@
 		D3BFBB6019EAF64E00E1BCE7 /* libopencv_highgui.2.4.9.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D3BFBB5F19EAF64E00E1BCE7 /* libopencv_highgui.2.4.9.dylib */; };
 		D3BFBB6219EAF65200E1BCE7 /* libopencv_core.2.4.9.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D3BFBB6119EAF65200E1BCE7 /* libopencv_core.2.4.9.dylib */; };
 		D3BFBB7A19EB087200E1BCE7 /* aux.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D3BFBB7819EB087200E1BCE7 /* aux.cpp */; };
-		D3BFBB7D19EB10ED00E1BCE7 /* makefile in Sources */ = {isa = PBXBuildFile; fileRef = D3BFBB7B19EB10ED00E1BCE7 /* makefile */; };
 		D3BFBB7E19EB173B00E1BCE7 /* blend.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D3BFBB6919EAFC5E00E1BCE7 /* blend.cpp */; };
 		D3FEA55119EAF3FB002B7F08 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D3FEA55019EAF3FA002B7F08 /* main.cpp */; };
 /* End PBXBuildFile section */
@@ -48,7 +47,7 @@
 		D3BFBB7519EB015600E1BCE7 /* blend.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = blend.h; sourceTree = "<group>"; };
 		D3BFBB7819EB087200E1BCE7 /* aux.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = aux.cpp; sourceTree = "<group>"; };
 		D3BFBB7919EB087200E1BCE7 /* aux.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = aux.h; sourceTree = "<group>"; };
-		D3BFBB7B19EB10ED00E1BCE7 /* makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = makefile; sourceTree = "<group>"; };
+		D3BFBB7B19EB10ED00E1BCE7 /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; name = Makefile; path = ../Makefile; sourceTree = "<group>"; };
 		D3FEA54D19EAF3FA002B7F08 /* computer-vision */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "computer-vision"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D3FEA55019EAF3FA002B7F08 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -112,7 +111,7 @@
 				D3BFBB6919EAFC5E00E1BCE7 /* blend.cpp */,
 				D3BFBB7519EB015600E1BCE7 /* blend.h */,
 				D3FEA55019EAF3FA002B7F08 /* main.cpp */,
-				D3BFBB7B19EB10ED00E1BCE7 /* makefile */,
+				D3BFBB7B19EB10ED00E1BCE7 /* Makefile */,
 				D3BFBB6719EAFC0A00E1BCE7 /* images */,
 				D3BFBB6319EAF96400E1BCE7 /* README.md */,
 			);
@@ -178,7 +177,6 @@
 				D3BFBB7E19EB173B00E1BCE7 /* blend.cpp in Sources */,
 				D3BFBB7A19EB087200E1BCE7 /* aux.cpp in Sources */,
 				D3FEA55119EAF3FB002B7F08 /* main.cpp in Sources */,
-				D3BFBB7D19EB10ED00E1BCE7 /* makefile in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
