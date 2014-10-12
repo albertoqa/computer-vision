@@ -7,9 +7,17 @@
 //
 
 #include <iostream>
+#include "opencv2/opencv.hpp"
 
-int main(int argc, const char * argv[]) {
-	// insert code here...
-	std::cout << "Hello, World!\n";
-    return 0;
+using namespace std;
+using namespace cv;
+
+
+int main (int argc, const char * argv[])
+{
+	Mat src = imread("/Users/alberto/Desktop/dev/VC/VC/images/lena.jpg");
+
+	//cout << "M = " << endl << " " << src << endl;
+
+	
 }
