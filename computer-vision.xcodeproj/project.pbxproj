@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D372BBAC19EB2BEF00497064 /* hybrid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D372BBAA19EB2BEF00497064 /* hybrid.cpp */; };
 		D3BFBB5E19EAF64B00E1BCE7 /* libopencv_imgproc.2.4.9.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D3BFBB5D19EAF64B00E1BCE7 /* libopencv_imgproc.2.4.9.dylib */; };
 		D3BFBB6019EAF64E00E1BCE7 /* libopencv_highgui.2.4.9.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D3BFBB5F19EAF64E00E1BCE7 /* libopencv_highgui.2.4.9.dylib */; };
 		D3BFBB6219EAF65200E1BCE7 /* libopencv_core.2.4.9.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D3BFBB6119EAF65200E1BCE7 /* libopencv_core.2.4.9.dylib */; };
@@ -28,6 +29,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		D372BBAA19EB2BEF00497064 /* hybrid.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = hybrid.cpp; sourceTree = "<group>"; };
+		D372BBAB19EB2BEF00497064 /* hybrid.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = hybrid.h; sourceTree = "<group>"; };
 		D3BFBB5D19EAF64B00E1BCE7 /* libopencv_imgproc.2.4.9.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libopencv_imgproc.2.4.9.dylib; path = ../../../../../opt/local/lib/libopencv_imgproc.2.4.9.dylib; sourceTree = "<group>"; };
 		D3BFBB5F19EAF64E00E1BCE7 /* libopencv_highgui.2.4.9.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libopencv_highgui.2.4.9.dylib; path = ../../../../../opt/local/lib/libopencv_highgui.2.4.9.dylib; sourceTree = "<group>"; };
 		D3BFBB6119EAF65200E1BCE7 /* libopencv_core.2.4.9.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libopencv_core.2.4.9.dylib; path = ../../../../../opt/local/lib/libopencv_core.2.4.9.dylib; sourceTree = "<group>"; };
@@ -110,6 +113,8 @@
 				D3BFBB7919EB087200E1BCE7 /* aux.h */,
 				D3BFBB6919EAFC5E00E1BCE7 /* blend.cpp */,
 				D3BFBB7519EB015600E1BCE7 /* blend.h */,
+				D372BBAA19EB2BEF00497064 /* hybrid.cpp */,
+				D372BBAB19EB2BEF00497064 /* hybrid.h */,
 				D3FEA55019EAF3FA002B7F08 /* main.cpp */,
 				D3BFBB7B19EB10ED00E1BCE7 /* Makefile */,
 				D3BFBB6719EAFC0A00E1BCE7 /* images */,
@@ -175,6 +180,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D3BFBB7E19EB173B00E1BCE7 /* blend.cpp in Sources */,
+				D372BBAC19EB2BEF00497064 /* hybrid.cpp in Sources */,
 				D3BFBB7A19EB087200E1BCE7 /* aux.cpp in Sources */,
 				D3FEA55119EAF3FB002B7F08 /* main.cpp in Sources */,
 			);
