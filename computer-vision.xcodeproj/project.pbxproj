@@ -42,6 +42,7 @@
 		D3BFBB7219EAFF9800E1BCE7 /* motorcycle.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = motorcycle.bmp; sourceTree = "<group>"; };
 		D3BFBB7319EAFF9800E1BCE7 /* plane.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = plane.bmp; sourceTree = "<group>"; };
 		D3BFBB7419EAFF9800E1BCE7 /* submarine.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = submarine.bmp; sourceTree = "<group>"; };
+		D3BFBB7519EB015600E1BCE7 /* blend.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = blend.h; sourceTree = "<group>"; };
 		D3FEA54D19EAF3FA002B7F08 /* computer-vision */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "computer-vision"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D3FEA55019EAF3FA002B7F08 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -104,6 +105,7 @@
 				D3BFBB6719EAFC0A00E1BCE7 /* images */,
 				D3BFBB6319EAF96400E1BCE7 /* README.md */,
 				D3FEA55019EAF3FA002B7F08 /* main.cpp */,
+				D3BFBB7519EB015600E1BCE7 /* blend.h */,
 			);
 			path = "computer-vision";
 			sourceTree = "<group>";
