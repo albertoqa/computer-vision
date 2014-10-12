@@ -22,4 +22,6 @@ void blend ( Mat &src1, Mat &src2, Mat &dst, double alpha )
 		
 	imshow( "Linear Blend", dst );
 	waitKey(0);
+	destroyWindow("Linear Blend");
+	
 }
