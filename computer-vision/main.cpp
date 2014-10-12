@@ -9,6 +9,7 @@
 #include <iostream>
 #include "opencv2/opencv.hpp"
 #include "blend.h"
+#include "aux.h"
 
 using namespace std;
 using namespace cv;
@@ -23,8 +24,7 @@ int main (int argc, const char * argv[])
 	if( !src1.data ) { printf("Error loading src1 \n"); return -1; }
 	if( !src2.data ) { printf("Error loading src2 \n"); return -1; }
 
-	//cout << "M = " << endl << " " << src << endl;
-
 	blend(src1, src2, dst, 0.5);
+	
 	
 }
