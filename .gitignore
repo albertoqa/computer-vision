@@ -29,8 +29,8 @@
 
 # Xcode
 .DS_Store
-build/
 *.pbxuser
+*.xcodeproj/*
 !default.pbxuser
 *.mode1v3
 !default.mode1v3
@@ -45,9 +45,3 @@ profile
 *.moved-aside
 DerivedData
 .idea/
-
-### Xcode ###
-build
-*.xcodeproj/*
-*.xcodeproj/project.pbxproj
-*.xcworkspace/contents.xcworkspacedata
