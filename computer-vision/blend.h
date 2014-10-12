@@ -10,8 +10,10 @@
 #ifndef computer_vision_blend_h
 #define computer_vision_blend_h
 
-#include "blend.cpp"
+#include "opencv2/opencv.hpp"
+using namespace cv;
 
-void blend ( Mat &src1, Mat &src2, Mat &dst, double alpha );
+void blend(Mat &src1, Mat &src2, Mat &dst, double alpha);
+
 
 #endif
