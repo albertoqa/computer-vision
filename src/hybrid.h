@@ -13,5 +13,6 @@
 using namespace cv;
 
 void imGaussConv(Mat &src, Mat &mask, Mat &dst);
+//void dFilterA(Mat &src, Mat &mask, Mat &dst);
 
 #endif /* defined(__computer_vision__hybrid__) */
