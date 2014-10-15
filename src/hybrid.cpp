@@ -43,28 +43,40 @@ void GaussFilter(Mat &src, Mat &dst, float sigma, int border_type) {
 	float *xxk = xk.ptr<float>();
 	
 	int ss = (sigma * 6) + 1;
+	int channels = src.channels();
+	//cout << channels;
 	
-	for(int y = 0; y < src.rows; y++) {
-		for(int x = 0; x < src.cols; x++) {
-			sum = 0.0;
-			for(int i = 0; i < ss; i++){
-				y1 = reflect(src.rows, y - i);
-				sum = sum + xxk[i]*src.at<uchar>(y1, x);
+	vector<Mat> m;
+	split(src, m);
+	
+	for(int rgb = 0; rgb < channels; rgb++) {
+	
+		for(int y = 0; y < m[rgb].rows; y++) {
+			for(int x = 0; x < m[rgb].cols; x++) {
+				sum = 0.0;
+				for(int i = 0; i < ss; i++){
+					y1 = reflect(m[rgb].rows, y - i);
+					sum = sum + xxk[i]*m[rgb].at<uchar>(y1, x);
+				}
+				tmp.at<uchar>(y,x) = sum;
 			}
-			tmp.at<uchar>(y,x) = sum;
 		}
+		
+		for(int y = 0; y < m[rgb].rows; y++) {
+			for(int x = 0; x < m[rgb].cols; x++) {
+				sum = 0.0;
+				for(int i = 0; i < ss; i++){
+					x1 = reflect(m[rgb].cols, x - i);
+					sum = sum + xxk[i]*tmp.at<uchar>(y, x1);
+				}
+				m[rgb].at<uchar>(y,x) = sum;
+			}
+		}
+	
 	}
 	
-	for(int y = 0; y < src.rows; y++) {
-		for(int x = 0; x < src.cols; x++) {
-			sum = 0.0;
-			for(int i = 0; i < ss; i++){
-				x1 = reflect(src.cols, x - i);
-				sum = sum + xxk[i]*tmp.at<uchar>(y, x1);
-			}
-			dst.at<uchar>(y,x) = sum;
-		}
-	}
+	merge(m, dst);
+	
 	
 }
 

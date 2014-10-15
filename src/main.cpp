@@ -21,7 +21,7 @@ int main (int argc, const char * argv[])
 	Mat src1 = imread("/Users/alberto/Desktop/dev/computer-vision/src/images/fish.bmp", 0);
 	//Mat src2 = imread("/Users/alberto/Desktop/dev/computer-vision/src/images/dog.bmp");
 	Mat dst;
-	
+
 	//convertir las matrices a flotante y hacer las operaciones en flotante
 	
 	
