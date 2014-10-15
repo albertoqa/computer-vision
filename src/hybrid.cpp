@@ -17,18 +17,23 @@ void imGaussConv(Mat &src, Mat &dst, float sigma) {
 }
 
 
-int reflect(int M, int x)
+int border(int M, int x, int border_type)
 {
-	if(x < 0)
-	{
-		return -x - 1;
-	}
-	if(x >= M)
-	{
-		return 2*M - x - 1;
-	}
 	
-	return x;
+	if(border_type == 0) { // reflected
+		if(x < 0)
+		{
+			return -x - 1;
+		}
+		if(x >= M)
+		{
+			return 2*M - x - 1;
+		}
+		
+		return x;
+	}
+	else	// uniform to 0
+		return x;
 }
 
 void GaussFilter(Mat &src, Mat &dst, float sigma, int border_type) {
@@ -55,7 +60,7 @@ void GaussFilter(Mat &src, Mat &dst, float sigma, int border_type) {
 			for(int x = 0; x < m[rgb].cols; x++) {
 				sum = 0.0;
 				for(int i = 0; i < ss; i++){
-					y1 = reflect(m[rgb].rows, y - i);
+					y1 = border(m[rgb].rows, y - i, border_type);
 					sum = sum + xxk[i]*m[rgb].at<uchar>(y1, x);
 				}
 				tmp.at<uchar>(y,x) = sum;
@@ -66,7 +71,7 @@ void GaussFilter(Mat &src, Mat &dst, float sigma, int border_type) {
 			for(int x = 0; x < m[rgb].cols; x++) {
 				sum = 0.0;
 				for(int i = 0; i < ss; i++){
-					x1 = reflect(m[rgb].cols, x - i);
+					x1 = border(m[rgb].cols, x - i, border_type);
 					sum = sum + xxk[i]*tmp.at<uchar>(y, x1);
 				}
 				m[rgb].at<uchar>(y,x) = sum;
@@ -76,7 +81,6 @@ void GaussFilter(Mat &src, Mat &dst, float sigma, int border_type) {
 	}
 	
 	merge(m, dst);
-	
 	
 }
 

@@ -38,7 +38,6 @@ int main (int argc, const char * argv[])
 	//showIM(dst, "horizontal");
 	
 	GaussFilter(src1, dst, 5, 1);
-	showIM(src1, "gauss");
 	showIM(dst, "gauss");
 
 
