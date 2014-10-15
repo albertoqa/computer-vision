@@ -13,7 +13,7 @@
 using namespace cv;
 
 void imGaussConv(Mat &src, Mat &dst, float sigma);
-void GaussFilter(InputArray &src, OutputArray &dst, float sigma, int border_type);
+void GaussFilter(Mat &src, Mat &dst, float sigma, int border_type);
 void createGaussKernel(Mat &xk, float sigma);
 
 

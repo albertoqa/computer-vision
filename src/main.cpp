@@ -18,7 +18,7 @@ using namespace cv;
 
 int main (int argc, const char * argv[])
 {
-	//Mat src1 = imread("/Users/alberto/Desktop/dev/computer-vision/src/images/fish.bmp");
+	Mat src1 = imread("/Users/alberto/Desktop/dev/computer-vision/src/images/fish.bmp");
 	//Mat src2 = imread("/Users/alberto/Desktop/dev/computer-vision/src/images/dog.bmp");
 	Mat dst;
 	
@@ -37,8 +37,9 @@ int main (int argc, const char * argv[])
 	//flipIM(src1, dst, 1);
 	//showIM(dst, "horizontal");
 	
-	
-	createGaussKernel(dst, 3);
+	//GaussFilter(src1, dst, 3, 1);
+
+	createGaussKernel(dst, 1);
 	//for(int i = 0; i < (3+3)*2; i++){
 		cout << dst;
 	//}

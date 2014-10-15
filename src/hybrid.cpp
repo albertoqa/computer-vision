@@ -20,7 +20,7 @@ void imGaussConv(Mat &src, Mat &dst, float sigma) {
 }
 
 
-void GaussFilter(InputArray &src, OutputArray &dst, float sigma, int border_type) {
+void GaussFilter(Mat &src, Mat &dst, float sigma, int border_type) {
 	
 	int type = src.type();
 	Size size = src.size();
@@ -40,18 +40,17 @@ void GaussFilter(InputArray &src, OutputArray &dst, float sigma, int border_type
 
 void createGaussKernel(Mat &xk, float sigma) {
 	
-	int size = ((sigma + 3) * 2 ) + 1;
+	int size = (sigma * 6) + 1;
 	
 	xk.create(size, 1, CV_32F);
-	//por alguna razón esto ahora no funciona
 	float *xxk = xk.ptr<float>();
 	
-	float sum = 0, x;
+	float sum = 0, x, pos;
 	
 	for(int i = 0; i < size; i++) {
 		
-		float pos = i - ((size-1)/2);
-		x = exp(-0.5*(pos/(sigma*sigma)));
+		pos = i - ((size-1)/2);
+		x = exp((-0.5/(sigma*sigma))*pos*pos);
 		
 		xxk[i] = x;
 		sum = sum + x;
