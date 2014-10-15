@@ -43,6 +43,7 @@ void createGaussKernel(Mat &xk, float sigma) {
 	int size = ((sigma + 3) * 2 ) + 1;
 	
 	xk.create(size, 1, CV_32F);
+	//por alguna razón esto ahora no funciona
 	float *xxk = xk.ptr<float>();
 	
 	float sum = 0, x;
