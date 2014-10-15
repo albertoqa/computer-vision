@@ -9,12 +9,62 @@
 #include "hybrid.h"
 #include "aux.h"
 
-void imGaussConv(Mat &src, Mat &mask, Mat &dst) {
+void imGaussConv(Mat &src, Mat &dst, float sigma) {
 	
+	// compute kernel size according to sigma
+	// the kernel must be an odd number
+	
+	int border_type = 0; // 0 uniforme a 0; 1 reflejada
+	GaussFilter(src, dst, sigma, border_type);
+	
+}
+
+
+void GaussFilter(InputArray &src, OutputArray &dst, float sigma, int border_type) {
+	
+	int type = src.type();
+	Size size = src.size();
+	dst.create( size, type );
+	
+	Mat xk;
+	createGaussKernel(xk, sigma);
+	
+	//sepFilter2D(_src, _dst, CV_MAT_DEPTH(type), kx, ky, Point(-1,-1), 0, borderType );
+	
+	//usar propiedades de las matrices (producto escalar?)
+	//usar solo una implementacion -> hacerlo por filas, transponer y hcaer lo mismo??
 	
 	
 	
 }
+
+void createGaussKernel(Mat &xk, float sigma) {
+	
+	int size = ((sigma + 3) * 2 ) + 1;
+	
+	xk.create(size, 1, CV_32F);
+	float *xxk = xk.ptr<float>();
+	
+	float sum = 0, x;
+	
+	for(int i = 0; i < size; i++) {
+		
+		float pos = i - ((size-1)/2);
+		x = exp(-0.5*(pos/(sigma*sigma)));
+		
+		xxk[i] = x;
+		sum = sum + x;
+		
+	}
+	
+	sum = 1.0/sum;
+	
+	for(int i = 0; i < size; i++ )
+		xxk[i] = xxk[i] * sum;
+	
+}
+
+
 
 /*void dFilterA(Mat &src, Mat &mask, Mat &dst) {
 	
