@@ -11,23 +11,85 @@
 
 void imGaussConv(Mat &src, Mat &dst, float sigma) {
 	
-	// compute kernel size according to sigma
-	// the kernel must be an odd number
-	
 	int border_type = 0; // 0 uniforme a 0; 1 reflejada
 	GaussFilter(src, dst, sigma, border_type);
 	
 }
 
 
+int reflect(int M, int x)
+{
+	if(x < 0)
+	{
+		return -x - 1;
+	}
+	if(x >= M)
+	{
+		return 2*M - x - 1;
+	}
+	
+	return x;
+}
+
 void GaussFilter(Mat &src, Mat &dst, float sigma, int border_type) {
 	
-	int type = src.type();
+	/*int type = src.type();
 	Size size = src.size();
 	dst.create( size, type );
 	
+	Mat temp;
+	temp.create(size, type);
+	
 	Mat xk;
 	createGaussKernel(xk, sigma);
+	
+	float *mask = xk.ptr<float>();
+	int pos = 0;
+	float x1, y1;
+	//cout << xk.rows;
+	
+	float sum = 0;*/
+	
+	dst.create(src.size(), src.type());
+	Mat tmp (src.size(), src.type());
+	float sum, x1, y1;
+	
+	Mat xk;
+	createGaussKernel(xk, sigma);
+	
+	float *xxk = xk.ptr<float>();
+	
+	//for(int i = 0; i < (sigma * 6) + 1; i++)
+	//	cout << xxk[i] << "    ";
+	
+	int ss = (sigma * 6) + 1;
+	
+	for(int y = 0; y < src.rows; y++){
+		for(int x = 0; x < src.cols; x++){
+			sum = 0.0;
+			for(int i = 0; i < ss; i++){
+				y1 = reflect(src.rows, y - i);
+				sum = sum + xxk[i]*src.at<uchar>(y1, x);
+			}
+			tmp.at<uchar>(y,x) = sum;
+		}
+	}
+	
+	
+	// along x - direction
+	for(int y = 0; y < src.rows; y++){
+		for(int x = 0; x < src.cols; x++){
+			sum = 0.0;
+			for(int i = 0; i < ss; i++){
+				x1 = reflect(src.cols, x - i);
+				sum = sum + xxk[i]*tmp.at<uchar>(y, x1);
+			}
+			dst.at<uchar>(y,x) = sum;
+		}
+	}
+	
+	
+	
 	
 	//sepFilter2D(_src, _dst, CV_MAT_DEPTH(type), kx, ky, Point(-1,-1), 0, borderType );
 	
@@ -44,6 +106,7 @@ void createGaussKernel(Mat &xk, float sigma) {
 	
 	xk.create(size, 1, CV_32F);
 	float *xxk = xk.ptr<float>();
+	//xk = new float [size];
 	
 	float sum = 0, x, pos;
 	
@@ -52,7 +115,7 @@ void createGaussKernel(Mat &xk, float sigma) {
 		pos = i - ((size-1)/2);
 		x = exp((-0.5/(sigma*sigma))*pos*pos);
 		
-		xxk[i] = x;
+		xxk[i] = x; // no se porque con Xcode no funciona, pero compilando normal si
 		sum = sum + x;
 		
 	}
