@@ -103,8 +103,9 @@ void createGaussKernel(Mat &xk, float sigma) {
 		pos = i - ((size-1)/2);
 		x = exp((-0.5/(sigma*sigma))*pos*pos);
 
-		xxk[i] = x; // no se porque con Xcode no funciona, pero compilando normal si
-		sum = sum + x;
+		xxk[i] = x;
+        
+        sum = sum + x;
 
 	}
 
@@ -114,3 +115,16 @@ void createGaussKernel(Mat &xk, float sigma) {
 		xxk[i] = xxk[i] * sum;
 
 }
+
+void createHighLow(Mat &src, Mat &low, Mat &high, float sigma, int border_type) {
+    //low.create(src.size(), src.type());
+    GaussFilter(src, low, sigma, border_type);
+    
+    high.create(src.size(), src.type());
+    high = src.clone();
+    
+    
+    
+}
+
+

@@ -15,6 +15,8 @@ using namespace std;
 using namespace cv;
 
 void showIM(Mat &src, string windowName);
+void convertToFloat(Mat &m, Mat &dst);
+void convertToUchar(Mat &m, Mat &dst);
 void flipIM(Mat &src, OutputArray _dst, int mode);
 
 
