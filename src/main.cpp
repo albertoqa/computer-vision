@@ -18,12 +18,11 @@ using namespace cv;
 
 int main (int argc, const char * argv[])
 {
-	Mat src1 = imread("/Users/alberto/Desktop/dev/computer-vision/src/images/fish.bmp", 1);
-    //cout << src1.channels();
-   // Mat_<CV_32F> fm;
-    Size siz = src1.size();
-    Mat fm(siz, CV_32F);
-    src1.convertTo(fm,CV_32F);
+	Mat fm = imread("/Users/alberto/Desktop/dev/computer-vision/src/images/fish.bmp", 0);
+
+    Size siz = fm.size();
+    Mat src1(siz, CV_32F);
+    fm.convertTo(src1,CV_32F);
     
 	//Mat src2 = imread("/Users/alberto/Desktop/dev/computer-vision/src/images/dog.bmp");
 	Mat dst;
@@ -43,13 +42,13 @@ int main (int argc, const char * argv[])
 	//flipIM(src1, dst, 1);
 	//showIM(dst, "horizontal");
 	
-	GaussFilter(fm, dst, 3, 0);
+	GaussFilter(src1, dst, 3, 1);
     
     double min, max;
     minMaxLoc(dst, &min, &max);
-    dst.convertTo(src1,CV_8U,255.0/(max-min));
+    dst.convertTo(fm,CV_8U,255.0/(max-min));
 
-	showIM(src1, "gauss");
+	showIM(fm, "gauss");
 
 
 	//createGaussKernel(dst, 1);

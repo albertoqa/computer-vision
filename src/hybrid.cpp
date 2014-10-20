@@ -21,19 +21,22 @@ int border(int M, int x, int border_type)
 {
 
 	if(border_type == 0) { // reflected
-		if(x < 0)
-		{
+		if(x < 0) {
 			return -x - 1;
 		}
-		if(x >= M)
-		{
+		if(x >= M) {
 			return 2*M - x - 1;
 		}
 
 		return x;
 	}
-	else	// uniform to 0
-		return x;
+    else {	// uniform to 0
+        if(x < 0 || x >= M)
+            return 0;
+    
+        return x;
+    }
+
 }
 
 void GaussFilter(Mat &src, Mat &dst, float sigma, int border_type) {
