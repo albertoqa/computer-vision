@@ -61,9 +61,9 @@ void GaussFilter(Mat &src, Mat &dst, float sigma, int border_type) {
 				sum = 0.0;
 				for(int i = 0; i < ss; i++){
 					y1 = border(m[rgb].rows, y - i, border_type);
-					sum = sum + xxk[i]*m[rgb].at<uchar>(y1, x);
+					sum = sum + xxk[i]*m[rgb].at<float>(y1, x);
 				}
-				tmp.at<uchar>(y,x) = sum;
+				tmp.at<float>(y,x) = sum;
 			}
 		}
 
@@ -72,9 +72,9 @@ void GaussFilter(Mat &src, Mat &dst, float sigma, int border_type) {
 				sum = 0.0;
 				for(int i = 0; i < ss; i++){
 					x1 = border(m[rgb].cols, x - i, border_type);
-					sum = sum + xxk[i]*tmp.at<uchar>(y, x1);
+					sum = sum + xxk[i]*tmp.at<float>(y, x1);
 				}
-				m[rgb].at<uchar>(y,x) = sum;
+				m[rgb].at<float>(y,x) = sum;
 			}
 		}
 

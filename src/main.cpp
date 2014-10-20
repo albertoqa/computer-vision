@@ -19,6 +19,9 @@ using namespace cv;
 int main (int argc, const char * argv[])
 {
 	Mat src1 = imread("/Users/alberto/Desktop/dev/computer-vision/src/images/fish.bmp", 0);
+    Mat_<float> fm;
+    src1.convertTo(fm,CV_32F);
+    
 	//Mat src2 = imread("/Users/alberto/Desktop/dev/computer-vision/src/images/dog.bmp");
 	Mat dst;
 
@@ -37,8 +40,13 @@ int main (int argc, const char * argv[])
 	//flipIM(src1, dst, 1);
 	//showIM(dst, "horizontal");
 	
-	GaussFilter(src1, dst, 5, 1);
-	showIM(dst, "gauss");
+	GaussFilter(fm, dst, 2, 0);
+    
+    double min, max;
+    minMaxLoc(dst, &min, &max);
+    dst.convertTo(src1,CV_8U,255.0/(max-min));
+
+	showIM(src1, "gauss");
 
 
 	//createGaussKernel(dst, 1);
