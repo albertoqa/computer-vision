@@ -26,27 +26,24 @@ int main (int argc, const char * argv[])
     Mat src, dst;
     
     convertToFloat(fm, src);
-    
-	
-	
-	//cout << "Rows: " << src1.rows << "   Cols: " << src1.cols << endl;
-	//cout << src1.channels();
+
 
 	//if( !src2.data ) { printf("Error loading src2 \n"); return -1; }
 
     //GaussFilter(src, dst, 3, 0);
     
     Mat low, high;
-    createHighLow(src, low, high, 10, 0);
+    createHighLow(src, low, high, 7, 0);
     
-    //convertToUchar(high, src);
-    convertScaleAbs( high, src );
-	showIM(src, "gauss");
+    convertScaleAbs(low, low);
+    convertScaleAbs(high, high);
+    convertScaleAbs(src, src);
 
+    //Laplacian(src, dst, CV_32F);
+    //convertScaleAbs( dst, src );
 
-	//createGaussKernel(dst, 1);
-	//for(int i = 0; i < (3+3)*2; i++){
-	//cout << dst;
-	//}
-	
+    showIM(src, "input");
+    showIM(low, "low");
+    showIM(high, "high");
+
 }

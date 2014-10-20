@@ -117,18 +117,12 @@ void createGaussKernel(Mat &xk, float sigma) {
 }
 
 void createHighLow(Mat &src, Mat &low, Mat &high, float sigma, int border_type) {
-    //low.create(src.size(), src.type());
+
     GaussFilter(src, low, sigma, border_type);
     
-    high.create(src.size(), src.type());
-    high = src.clone();
+    //src.copyTo(high);
     
-    high = high - low;
-    
-    
-    
-    
-    
+    high = src - low;
     
 }
 
