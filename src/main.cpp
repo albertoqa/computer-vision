@@ -19,32 +19,28 @@ using namespace cv;
 int main (int argc, const char * argv[])
 {
 	Mat fm = imread("/Users/alberto/Desktop/dev/computer-vision/src/images/fish.bmp", 1);
+    
+    if( !fm.data ) { printf("Error loading src \n"); return -1; }
+
+    //Mat src2 = imread("/Users/alberto/Desktop/dev/computer-vision/src/images/dog.bmp");
     Mat src, dst;
     
     convertToFloat(fm, src);
     
-    
-	//Mat src2 = imread("/Users/alberto/Desktop/dev/computer-vision/src/images/dog.bmp");
 	
 	
 	//cout << "Rows: " << src1.rows << "   Cols: " << src1.cols << endl;
 	//cout << src1.channels();
 
-	//if( !src1.data ) { printf("Error loading src1 \n"); return -1; }
 	//if( !src2.data ) { printf("Error loading src2 \n"); return -1; }
 
-	//blend(src1, src2, dst, 0.5);
-	//dFilterA(src1, mask, dst);
-	//horizontalTrans(src1);
-	//flipIM(src1, dst, 1);
-	//showIM(dst, "horizontal");
-	
-	GaussFilter(src, dst, 3, 0);
+    //GaussFilter(src, dst, 3, 0);
     
     Mat low, high;
-    //createHighLow(src1, low, high, 3, 0);
+    createHighLow(src, low, high, 10, 0);
     
-    convertToUchar(dst, src);
+    //convertToUchar(high, src);
+    convertScaleAbs( high, src );
 	showIM(src, "gauss");
 
 

@@ -123,6 +123,11 @@ void createHighLow(Mat &src, Mat &low, Mat &high, float sigma, int border_type) 
     high.create(src.size(), src.type());
     high = src.clone();
     
+    high = high - low;
+    
+    
+    
+    
     
     
 }

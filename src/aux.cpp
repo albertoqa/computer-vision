@@ -23,13 +23,6 @@ void convertToFloat(Mat &m, Mat &dst) {
     m.convertTo(dst,CV_32F);
 }
 
-void convertToUchar(Mat &m, Mat &dst) {
-    double min, max;
-    minMaxLoc(m, &min, &max);
-    m.convertTo(dst,CV_8U,255.0/(max-min));
-
-}
-
 // 0 = vertical flip
 // 1 = horizontal flip
 // 2 = vertical and horizontal flip
