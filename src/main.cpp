@@ -18,47 +18,58 @@ using namespace cv;
 
 int main (int argc, const char * argv[])
 {
-	Mat fm = imread("/Users/alberto/Desktop/dev/computer-vision/src/images/cat.bmp", 1);
     
+    // Image Lecture
+    //-------------------------------------------------------------------------------------
+
+	Mat fm = imread("/Users/alberto/Desktop/dev/computer-vision/src/images/cat.bmp", 1);
     if( !fm.data ) { printf("Error loading src \n"); return -1; }
 
     Mat fm1 = imread("/Users/alberto/Desktop/dev/computer-vision/src/images/dog.bmp", 1);
-    
     if( !fm1.data ) { printf("Error loading src \n"); return -1; }
 
     Mat src, src1, dst;
-    
     convertToFloat(fm, src);
     convertToFloat(fm1, src1);
 
-    //GaussFilter(src, dst, 3, 0);
+    // Gauss Filter
+    //-------------------------------------------------------------------------------------
+
+    GaussFilter(src, dst, 3, 0);
+    dst.convertTo(dst, CV_8U);
+    convertScaleAbs(dst, dst);
+    showIM(dst, "dst");
+    
+    // High and low frecuency + hybrid image
+    //-------------------------------------------------------------------------------------
     
     Mat low, high;
-    createHighLow(src, src1, low, high, 5, 0);
+    createHighLow(src, src1, low, high, 4, 0);
     
     convertScaleAbs(low, low);
     convertScaleAbs(high, high);
     convertScaleAbs(src, src);
-
-    //Laplacian(src, dst, CV_32F);
-    //convertScaleAbs( dst, src );
-    
-    //dst = createOne(v, 2, 5);
     
     vector<Mat> v;
     v.push_back(low);
     v.push_back(high);
     v.push_back(src);
-
+    
     dst = createOne(v, 5, 0);
+    showIM(dst, "dst");
 
-    /*v = gaussPyramid(src, 5);
+    // Gaussian Pyramid
+    //-------------------------------------------------------------------------------------
+
+    v = gaussPyramid(src, 5);
+    
     dst = createOne(v, 5, 0);
     dst.convertTo(dst, CV_8UC3);
     convertScaleAbs(dst, dst);
+    
+    showIM(dst, "input");
+    
+    //-------------------------------------------------------------------------------------
 
-    showIM(dst, "input");*/
-    showIM(dst, "dst");
-    //showIM(high, "high");
 
 }
