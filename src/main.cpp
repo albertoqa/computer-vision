@@ -33,12 +33,12 @@ int main (int argc, const char * argv[])
 
     //GaussFilter(src, dst, 3, 0);
     
-    //Mat low, high;
-    //createHighLow(src, src1, low, high, 5, 0);
+    Mat low, high;
+    createHighLow(src, src1, low, high, 5, 0);
     
-    //convertScaleAbs(low, low);
-    //convertScaleAbs(high, high);
-    //convertScaleAbs(src, src);
+    convertScaleAbs(low, low);
+    convertScaleAbs(high, high);
+    convertScaleAbs(src, src);
 
     //Laplacian(src, dst, CV_32F);
     //convertScaleAbs( dst, src );
@@ -46,14 +46,19 @@ int main (int argc, const char * argv[])
     //dst = createOne(v, 2, 5);
     
     vector<Mat> v;
-    
-    v = gaussPyramid(src, 5);
+    v.push_back(low);
+    v.push_back(high);
+    v.push_back(src);
+
+    dst = createOne(v, 5, 0);
+
+    /*v = gaussPyramid(src, 5);
     dst = createOne(v, 5, 0);
     dst.convertTo(dst, CV_8UC3);
     convertScaleAbs(dst, dst);
 
-    showIM(dst, "input");
-    //showIM(low, "low");
+    showIM(dst, "input");*/
+    showIM(dst, "dst");
     //showIM(high, "high");
 
 }

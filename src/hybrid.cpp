@@ -118,36 +118,18 @@ void createGaussKernel(Mat &xk, float sigma) {
 
 void createHighLow(Mat &src, Mat &src1, Mat &low, Mat &high, float sigma, int border_type) {
     
-    Mat Hfrec, Lfrec, hibrida, aux;
-    
+    Mat aux;
     
     GaussFilter(src, aux, sigma, border_type);
-    //aux.convertTo(aux, CV_8U);
+    
     high = src - aux;
-    //high *= 2;
-    //high.convertTo(high, CV_8U);
+    //high /= 2;
     
+    // put the low frecuency image in Mat low
     GaussFilter(src1, low, sigma, border_type);
-    //low.convertTo(low, CV_8U);
     
-    
+    // compute the hybrid image
     src = low + high;
-    
-    //src.convertTo(src, CV_8U);
-    
-    
-    /*
-
-    //low tiene la lowfrec
-    GaussFilter(src, low, sigma, border_type);
-    low.convertTo(low, CV_8U);
-    
-    high = src - low;
-    //high *= 2;//
-    
-    //high = src - low;
-    */
-    
     
 }
 
@@ -168,7 +150,7 @@ Mat createOne(vector<Mat> & images, int cols, int min_gap_size)
         max_width = max(max_width, images[i].cols);
     }
     // number of images in y direction
-    int rows = ceil(images.size() / cols);
+    int rows = ceil(images.size() / cols)+1;
     
     // create our result-matrix
     Mat result = Mat::zeros(rows*max_height + (rows-1)*min_gap_size,
@@ -208,12 +190,12 @@ vector<Mat> gaussPyramid(Mat &src, int levels) {
     
     for(int i = 0; i < levels; i++) {
         
-        GaussFilter(img, aux, 3, 0);
-        //pyrDown(img, aux);
+        //GaussFilter(img, aux, 3, 0);
+        pyrDown(img, aux);
         
         v.push_back(aux);
 
-        img = aux;
+        aux.copyTo(img);
         
     }
     
