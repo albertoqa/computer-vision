@@ -116,14 +116,121 @@ void createGaussKernel(Mat &xk, float sigma) {
 
 }
 
-void createHighLow(Mat &src, Mat &low, Mat &high, float sigma, int border_type) {
-
-    GaussFilter(src, low, sigma, border_type);
+void createHighLow(Mat &src, Mat &src1, Mat &low, Mat &high, float sigma, int border_type) {
     
-    //src.copyTo(high);
+    Mat Hfrec, Lfrec, hibrida, aux;
+    
+    
+    GaussFilter(src, aux, sigma, border_type);
+    //aux.convertTo(aux, CV_8U);
+    high = src - aux;
+    //high *= 2;
+    //high.convertTo(high, CV_8U);
+    
+    GaussFilter(src1, low, sigma, border_type);
+    //low.convertTo(low, CV_8U);
+    
+    
+    src = low + high;
+    
+    //src.convertTo(src, CV_8U);
+    
+    
+    /*
+
+    //low tiene la lowfrec
+    GaussFilter(src, low, sigma, border_type);
+    low.convertTo(low, CV_8U);
     
     high = src - low;
+    //high *= 2;//
     
+    //high = src - low;
+    */
+    
+    
+}
+
+cv::Mat createOne(std::vector<cv::Mat> & images, int cols, int min_gap_size)
+{
+    // let's first find out the maximum dimensions
+    int max_width = 0;
+    int max_height = 0;
+    for ( int i = 0; i < images.size(); i++) {
+        // check if type is correct
+        // you could actually remove that check and convert the image
+        // in question to a specific type
+        if ( i > 0 && images[i].type() != images[i-1].type() ) {
+            std::cerr << "WARNING:createOne failed, different types of images";
+            return cv::Mat();
+        }
+        max_height = std::max(max_height, images[i].rows);
+        max_width = std::max(max_width, images[i].cols);
+    }
+    // number of images in y direction
+    int rows = std::ceil(images.size() / cols);
+    
+    // create our result-matrix
+    cv::Mat result = cv::Mat::zeros(rows*max_height + (rows-1)*min_gap_size,
+                                    cols*max_width + (cols-1)*min_gap_size, images[0].type());
+    size_t i = 0;
+    int current_height = 0;
+    int current_width = 0;
+    for ( int y = 0; y < rows; y++ ) {
+        for ( int x = 0; x < cols; x++ ) {
+            if ( i >= images.size() ) // shouldn't happen, but let's be safe
+                return result;
+            // get the ROI in our result-image
+            cv::Mat to(result,
+                       cv::Range(current_height, current_height + images[i].rows),
+                       cv::Range(current_width, current_width + images[i].cols));
+            // copy the current image to the ROI
+            images[i++].copyTo(to);
+            current_width += max_width + min_gap_size;
+        }
+        // next line - reset width and update height
+        current_width = 0;
+        current_height += max_height + min_gap_size;
+    }
+    return result;
+}
+
+
+vector<Mat> gaussPyramid(Mat &src, int levels) {
+    
+    Mat output;
+    Mat aux, img = src;
+    //src.copyTo(output);
+    
+    //Mat left(output, Rect(0, 0, src.rows, src.cols));
+    //src.convertTo(src, CV_8UC3);
+
+    //src.copyTo(left);
+    
+    vector<Mat> v;
+    //src.convertTo(src, CV_8UC3);
+    //convertScaleAbs(src, src);
+
+    v.push_back(src);
+    
+    for(int i = 0; i < levels; i++) {
+        pyrDown(img, aux);
+        
+        v.push_back(aux);
+
+        img = aux;
+        
+    }
+    //output = aux;
+    
+    //left.convertTo(left, CV_8UC3);
+
+    
+    //dst = createOne(v, 3, 5);
+    
+    
+    //output.convertTo(output, CV_8UC3);
+    return v;
 }
 
 
