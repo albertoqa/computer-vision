@@ -197,16 +197,19 @@ Mat createOne(vector<Mat> & images, int cols, int min_gap_size)
 
 
 vector<Mat> gaussPyramid(Mat &src, int levels) {
+        
+    if(src.type() == 0)
+        cvtColor(src, src, CV_GRAY2BGR, 3);
     
-    Mat output;
     Mat aux, img = src;
     
     vector<Mat> v;
-
     v.push_back(src);
     
     for(int i = 0; i < levels; i++) {
-        pyrDown(img, aux);
+        
+        GaussFilter(img, aux, 3, 0);
+        //pyrDown(img, aux);
         
         v.push_back(aux);
 
