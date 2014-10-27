@@ -22,10 +22,10 @@ int main (int argc, const char * argv[])
     // Image Lecture
     //-------------------------------------------------------------------------------------
 
-	Mat fm = imread("/Users/alberto/Desktop/dev/computer-vision/src/images/fish.bmp", 1);
+	Mat fm = imread("/Users/alberto/Desktop/dev/computer-vision/src/images/dog.bmp", 1);
     if( !fm.data ) { printf("Error loading src \n"); return -1; }
 
-    Mat fm1 = imread("/Users/alberto/Desktop/dev/computer-vision/src/images/submarine.bmp", 1);
+    Mat fm1 = imread("/Users/alberto/Desktop/dev/computer-vision/src/images/cat.bmp", 1);
     if( !fm1.data ) { printf("Error loading src \n"); return -1; }
 
     Mat src, src1, dst;
@@ -44,7 +44,9 @@ int main (int argc, const char * argv[])
     //-------------------------------------------------------------------------------------
     
     Mat low, high;
-    src = createHighLow(src, src1, low, high, 2, 5, 0);
+    src = createHighLow(src, src1, low, high, 5, 5, 0);
+    
+    //threshold(high, high, 0.0, 0.0, THRESH_TOZERO);
     
     convertScaleAbs(low, low);
     convertScaleAbs(high, high);

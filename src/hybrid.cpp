@@ -120,11 +120,8 @@ Mat createHighLow(Mat &src, Mat &src1, Mat &low, Mat &high, float sigma1, float 
     src.copyTo(high);
     high -= aux;
     
-    threshold(high, high, 0.0, 0.0, THRESH_TOZERO);
-    
-    //cout << high;
-    
-    //cout << high;
+    //threshold(high, high, 0.0, 0.0, THRESH_TOZERO);
+   
     // put the low frecuency image in Mat low
     low = GaussFilter(src1, sigma2, border_type);
     
