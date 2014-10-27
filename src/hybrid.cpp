@@ -116,20 +116,20 @@ void createGaussKernel(Mat &xk, float sigma) {
 
 }
 
-void createHighLow(Mat &src, Mat &src1, Mat &low, Mat &high, float sigma, int border_type) {
+Mat createHighLow(Mat &src, Mat &src1, Mat &low, Mat &high, float sigma, int border_type) {
     
-    Mat aux;
+    Mat aux, hybrid;
     
     GaussFilter(src, aux, sigma, border_type);
     
     high = src - aux;
-    //high /= 2;
     
     // put the low frecuency image in Mat low
     GaussFilter(src1, low, sigma, border_type);
     
     // compute the hybrid image
-    src = low + high;
+    hybrid = high + low;
+    return hybrid;
     
 }
 

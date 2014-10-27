@@ -44,7 +44,7 @@ int main (int argc, const char * argv[])
     //-------------------------------------------------------------------------------------
     
     Mat low, high;
-    createHighLow(src, src1, low, high, 4, 0);
+    src = createHighLow(src, src1, low, high, 4, 0);
     
     convertScaleAbs(low, low);
     convertScaleAbs(high, high);
@@ -63,7 +63,7 @@ int main (int argc, const char * argv[])
 
     v = gaussPyramid(src, 5);
     
-    dst = createOne(v, 5, 0);
+    dst = createOne(v, 6, 0);
     dst.convertTo(dst, CV_8UC3);
     convertScaleAbs(dst, dst);
     
