@@ -48,9 +48,9 @@ int main (int argc, const char * argv[])
     vector<Mat> v;
     
     v = gaussPyramid(src, 5);
-    dst = createOne(v, 4, 0);
+    dst = createOne(v, 5, 0);
     dst.convertTo(dst, CV_8UC3);
-    //convertScaleAbs(dst, dst);
+    convertScaleAbs(dst, dst);
 
     showIM(dst, "input");
     //showIM(low, "low");

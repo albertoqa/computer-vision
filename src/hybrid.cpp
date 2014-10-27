@@ -151,7 +151,7 @@ void createHighLow(Mat &src, Mat &src1, Mat &low, Mat &high, float sigma, int bo
     
 }
 
-cv::Mat createOne(std::vector<cv::Mat> & images, int cols, int min_gap_size)
+Mat createOne(vector<Mat> & images, int cols, int min_gap_size)
 {
     // let's first find out the maximum dimensions
     int max_width = 0;
@@ -161,17 +161,17 @@ cv::Mat createOne(std::vector<cv::Mat> & images, int cols, int min_gap_size)
         // you could actually remove that check and convert the image
         // in question to a specific type
         if ( i > 0 && images[i].type() != images[i-1].type() ) {
-            std::cerr << "WARNING:createOne failed, different types of images";
-            return cv::Mat();
+            cerr << "WARNING:createOne failed, different types of images";
+            return Mat();
         }
-        max_height = std::max(max_height, images[i].rows);
-        max_width = std::max(max_width, images[i].cols);
+        max_height = max(max_height, images[i].rows);
+        max_width = max(max_width, images[i].cols);
     }
     // number of images in y direction
-    int rows = std::ceil(images.size() / cols);
+    int rows = ceil(images.size() / cols);
     
     // create our result-matrix
-    cv::Mat result = cv::Mat::zeros(rows*max_height + (rows-1)*min_gap_size,
+    Mat result = Mat::zeros(rows*max_height + (rows-1)*min_gap_size,
                                     cols*max_width + (cols-1)*min_gap_size, images[0].type());
     size_t i = 0;
     int current_height = 0;
@@ -181,12 +181,12 @@ cv::Mat createOne(std::vector<cv::Mat> & images, int cols, int min_gap_size)
             if ( i >= images.size() ) // shouldn't happen, but let's be safe
                 return result;
             // get the ROI in our result-image
-            cv::Mat to(result,
-                       cv::Range(current_height, current_height + images[i].rows),
-                       cv::Range(current_width, current_width + images[i].cols));
+            Mat to(result,
+                       Range(current_height, current_height + images[i].rows),
+                       Range(current_width, current_width + images[i].cols));
             // copy the current image to the ROI
             images[i++].copyTo(to);
-            current_width += max_width + min_gap_size;
+            current_width += images[i-1].cols + min_gap_size;
         }
         // next line - reset width and update height
         current_width = 0;
@@ -200,16 +200,8 @@ vector<Mat> gaussPyramid(Mat &src, int levels) {
     
     Mat output;
     Mat aux, img = src;
-    //src.copyTo(output);
-    
-    //Mat left(output, Rect(0, 0, src.rows, src.cols));
-    //src.convertTo(src, CV_8UC3);
-
-    //src.copyTo(left);
     
     vector<Mat> v;
-    //src.convertTo(src, CV_8UC3);
-    //convertScaleAbs(src, src);
 
     v.push_back(src);
     
@@ -221,15 +213,7 @@ vector<Mat> gaussPyramid(Mat &src, int levels) {
         img = aux;
         
     }
-    //output = aux;
     
-    //left.convertTo(left, CV_8UC3);
-
-    
-    //dst = createOne(v, 3, 5);
-    
-    
-    //output.convertTo(output, CV_8UC3);
     return v;
 }
 
