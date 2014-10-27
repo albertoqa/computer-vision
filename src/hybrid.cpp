@@ -9,13 +9,6 @@
 #include "hybrid.h"
 #include "aux.h"
 
-void imGaussConv(Mat &src, Mat &dst, float sigma) {
-
-	int border_type = 0; // 0 uniforme a 0; 1 reflejada
-	GaussFilter(src, dst, sigma, border_type);
-
-}
-
 
 int border(int M, int x, int border_type)
 {
@@ -39,8 +32,10 @@ int border(int M, int x, int border_type)
 
 }
 
-void GaussFilter(Mat &src, Mat &dst, float sigma, int border_type) {
+Mat GaussFilter(Mat &src, float sigma, int border_type) {
 
+    Mat dst;
+    
 	dst.create(src.size(), src.type());
 	Mat tmp (src.size(), src.type());
 	float sum, x1, y1;
@@ -85,6 +80,7 @@ void GaussFilter(Mat &src, Mat &dst, float sigma, int border_type) {
 
 	merge(m, dst);
 
+    return dst;
 }
 
 //create a gauss kernel based on sigma (input)
@@ -116,16 +112,21 @@ void createGaussKernel(Mat &xk, float sigma) {
 
 }
 
-Mat createHighLow(Mat &src, Mat &src1, Mat &low, Mat &high, float sigma, int border_type) {
+Mat createHighLow(Mat &src, Mat &src1, Mat &low, Mat &high, float sigma1, float sigma2, int border_type) {
     
     Mat aux, hybrid;
     
-    GaussFilter(src, aux, sigma, border_type);
+    aux = GaussFilter(src, sigma1, border_type);
+    src.copyTo(high);
+    high -= aux;
     
-    high = src - aux;
+    threshold(high, high, 0.0, 0.0, THRESH_TOZERO);
     
+    //cout << high;
+    
+    //cout << high;
     // put the low frecuency image in Mat low
-    GaussFilter(src1, low, sigma, border_type);
+    low = GaussFilter(src1, sigma2, border_type);
     
     // compute the hybrid image
     hybrid = high + low;

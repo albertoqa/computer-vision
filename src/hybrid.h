@@ -13,9 +13,9 @@
 using namespace cv;
 
 void imGaussConv(Mat &src, Mat &dst, float sigma);
-void GaussFilter(Mat &src, Mat &dst, float sigma, int border_type);
+Mat GaussFilter(Mat &src, float sigma, int border_type);
 void createGaussKernel(Mat &xk, float sigma);
-Mat createHighLow(Mat &src, Mat &src1, Mat &low, Mat &high, float sigma, int border_type);
+Mat createHighLow(Mat &src, Mat &src1, Mat &low, Mat &high, float sigma1, float sigma2, int border_type);
 vector<Mat> gaussPyramid(Mat &src, int levels);
 cv::Mat createOne(std::vector<cv::Mat> & images, int cols, int min_gap_size);
 
