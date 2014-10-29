@@ -138,13 +138,6 @@ Mat createOne(vector<Mat> & images, int cols, int min_gap_size)
     int max_width = 0;
     int max_height = 0;
     for ( int i = 0; i < images.size(); i++) {
-        // check if type is correct
-        // you could actually remove that check and convert the image
-        // in question to a specific type
-        if ( i > 0 && images[i].type() != images[i-1].type() ) {
-            cerr << "WARNING:createOne failed, different types of images";
-            return Mat();
-        }
         max_height = max(max_height, images[i].rows);
         max_width = max(max_width, images[i].cols);
     }

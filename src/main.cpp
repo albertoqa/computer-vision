@@ -22,7 +22,7 @@ int main (int argc, const char * argv[])
     // Image Lecture
     //-------------------------------------------------------------------------------------
 
-	Mat fm = imread("/Users/alberto/Desktop/dev/computer-vision/src/images/dog.bmp", 0);
+	Mat fm = imread("/Users/alberto/Desktop/dev/computer-vision/src/images/dog.bmp", 1);
     if( !fm.data ) { printf("Error loading src \n"); return -1; }
 
     Mat fm1 = imread("/Users/alberto/Desktop/dev/computer-vision/src/images/cat.bmp", 0);
@@ -71,7 +71,26 @@ int main (int argc, const char * argv[])
     
     showIM(dst, "input");
     
+    // Bonus 2 - Canny edge detection
     //-------------------------------------------------------------------------------------
 
+    Mat dd, edges;
+    dd.create(fm.size(), fm.type());
+
+    blur(fm, edges, Size(3,3));
+    Canny(edges, edges, 10, 30);
+    
+    dd = Scalar::all(0);
+    fm.copyTo( dd, edges);
+    
+    showIM(dd, "edges");
+    
+    //
+    //-------------------------------------------------------------------------------------
+
+    
+    
+    
+    
 
 }
