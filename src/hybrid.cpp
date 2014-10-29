@@ -148,40 +148,36 @@ Mat createHighLow(Mat &src, Mat &src1, Mat &low, Mat &high, float sigma1, float 
 // Draw various images in one canvas
 //-------------------------------------------------------------------------------------
 
-Mat createOne(vector<Mat> & images, int cols, int min_gap_size)
+Mat createOne(vector<Mat> & images, int cols)
 {
-    // let's first find out the maximum dimensions
+    // find out the maximum dimensions
     int max_width = 0;
     int max_height = 0;
+    
     for ( int i = 0; i < images.size(); i++) {
         max_height = max(max_height, images[i].rows);
-        max_width = max(max_width, images[i].cols);
+        max_width += images[i].cols;
     }
-    // number of images in y direction
-    int rows = ceil(images.size() / cols)+1;
     
     // create our result-matrix
-    Mat result = Mat::zeros(rows*max_height + (rows-1)*min_gap_size,
-                                    cols*max_width + (cols-1)*min_gap_size, images[0].type());
+    Mat result = Mat::zeros(max_height, max_width, images[0].type());
+    
     size_t i = 0;
     int current_height = 0;
     int current_width = 0;
-    for ( int y = 0; y < rows; y++ ) {
-        for ( int x = 0; x < cols; x++ ) {
-            if ( i >= images.size() ) // shouldn't happen, but let's be safe
-                return result;
-            // get the ROI in our result-image
-            Mat to(result,
-                       Range(current_height, current_height + images[i].rows),
-                       Range(current_width, current_width + images[i].cols));
-            // copy the current image to the ROI
-            images[i++].copyTo(to);
-            current_width += images[i-1].cols + min_gap_size;
-        }
-        // next line - reset width and update height
-        current_width = 0;
-        current_height += max_height + min_gap_size;
+    for ( int x = 0; x < cols; x++ ) {
+        
+        if ( i >= images.size() )
+            return result;
+        
+        // get the ROI in our result-image
+        Mat to(result, Range(current_height, current_height + images[i].rows), Range(current_width, current_width + images[i].cols));
+        
+        // copy the current image to the ROI
+        images[i++].copyTo(to);
+        current_width += images[i-1].cols;
     }
+    
     return result;
 }
 

@@ -44,7 +44,7 @@ int main (int argc, const char * argv[])
     //-------------------------------------------------------------------------------------
     
     Mat low, high;
-    src = createHighLow(src, src1, low, high, 5, 5, 0);
+    src = createHighLow(src, src1, low, high, 2, 5, 0);
     
     //threshold(high, high, 0.0, 0.0, THRESH_TOZERO);
     
@@ -57,7 +57,7 @@ int main (int argc, const char * argv[])
     v.push_back(high);
     v.push_back(src);
     
-    dst = createOne(v, 5, 0);
+    dst = createOne(v, 5);
     showIM(dst, "dst");
 
     // Gaussian Pyramid
@@ -65,7 +65,7 @@ int main (int argc, const char * argv[])
 
     v = gaussPyramid(src, 5);
     
-    dst = createOne(v, 6, 0);
+    dst = createOne(v, 6);
     dst.convertTo(dst, CV_8UC3);
     convertScaleAbs(dst, dst);
     
@@ -78,7 +78,7 @@ int main (int argc, const char * argv[])
     dd.create(fm.size(), fm.type());
 
     blur(fm, edges, Size(3,3));
-    Canny(edges, edges, 100, 255);
+    Canny(edges, edges, 10, 30);
     
     dd = Scalar::all(0);
     fm.copyTo( dd, edges);
