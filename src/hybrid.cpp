@@ -10,6 +10,10 @@
 #include "aux.h"
 
 
+// Border detection
+// 0 - reflected, 1 - uniform to 0
+//-------------------------------------------------------------------------------------
+
 int border(int M, int x, int border_type)
 {
 
@@ -32,70 +36,78 @@ int border(int M, int x, int border_type)
 
 }
 
+// Gauss Filter
+// src - input image
+// sigma
+// border_type -> 0 - reflected, 1 - uniform to 0
+//-------------------------------------------------------------------------------------
+
 Mat GaussFilter(Mat &src, float sigma, int border_type) {
 
-    Mat dst;
+    Mat dst; // return matrix
     
-	dst.create(src.size(), src.type());
-	Mat tmp (src.size(), src.type());
+	dst.create(src.size(), src.type()); //create it with same size and type as input image
+	Mat tmp (src.size(), src.type()); // used for 1D
 	float sum, x1, y1;
 
-	Mat xk;
-	createGaussKernel(xk, sigma);
+	Mat xk; // kernel matrix (it is a vector actually...)
+	createGaussKernel(xk, sigma); // generate the kernel
     //xk = firstDerivative(sigma);
     //xk = secondDerivative(sigma);
     
-	float *xxk = xk.ptr<float>();
+	float *xxk = xk.ptr<float>(); // pointer to the kernel for make easier the access
 
-	int ss = (sigma * 6) + 1;
-	int channels = src.channels();
+	int ss = (sigma * 6) + 1; // size of the kernel
+	int channels = src.channels();  // channels of the input image
 
-	vector<Mat> m;
-	split(src, m);
+	vector<Mat> m; // save spplited image
+	split(src, m); // split input image
 
-	for(int rgb = 0; rgb < channels; rgb++) {
+	for(int rgb = 0; rgb < channels; rgb++) { // for each channel of the image
 
 		for(int y = 0; y < m[rgb].rows; y++) {
 			for(int x = 0; x < m[rgb].cols; x++) {
-				sum = 0.0;
-				for(int i = 0; i < ss; i++){
-					y1 = border(m[rgb].rows, y - i, border_type);
-					sum = sum + xxk[i]*m[rgb].at<float>(y1, x);
+				sum = 0.0; // restart sum
+				for(int i = 0; i < ss; i++){ // iterate over all the kernel size
+					y1 = border(m[rgb].rows, y - i, border_type); // check if border
+					sum = sum + xxk[i]*m[rgb].at<float>(y1, x); // add value to the sum
 				}
-				tmp.at<float>(y,x) = sum;
+				tmp.at<float>(y,x) = sum; // temporal value for the pixel y,x
 			}
 		}
 
 		for(int y = 0; y < m[rgb].rows; y++) {
 			for(int x = 0; x < m[rgb].cols; x++) {
-				sum = 0.0;
-				for(int i = 0; i < ss; i++){
-					x1 = border(m[rgb].cols, x - i, border_type);
-					sum = sum + xxk[i]*tmp.at<float>(y, x1);
+				sum = 0.0; // restart sum
+				for(int i = 0; i < ss; i++){ // iterate over all the kernel size
+					x1 = border(m[rgb].cols, x - i, border_type); // check if border
+					sum = sum + xxk[i]*tmp.at<float>(y, x1); // add value to the sum
 				}
-				m[rgb].at<float>(y,x) = sum;
+				m[rgb].at<float>(y,x) = sum; // save final value for the pixel y,x
 			}
 		}
 
 	}
 
-	merge(m, dst);
+	merge(m, dst); // merge image
 
     return dst;
 }
 
-//create a gauss kernel based on sigma (input)
-//the kernel is saved in the matrix xk
+// Create a gauss kernel based on sigma (input)
+// The kernel is saved in the matrix xk
+//-------------------------------------------------------------------------------------
+
 void createGaussKernel(Mat &xk, float sigma) {
 
-	int size = (sigma * 6) + 1;
+	int size = (sigma * 6) + 1; // size of the kernel
 
-	xk.create(size, 1, CV_32F);
-	float *xxk = xk.ptr<float>();
+	xk.create(size, 1, CV_32F); // create matrix (vector)
+	float *xxk = xk.ptr<float>(); // pointer to the matrix, it makes easier the access
 
 	float sum = 0, x, pos;
 
-	for(int i = 0; i < size; i++) {
+	for(int i = 0; i < size; i++) { // calculate the value of each position
 
 		pos = i - ((size-1)/2);
 		x = exp((-0.5/(sigma*sigma))*pos*pos);
@@ -108,21 +120,22 @@ void createGaussKernel(Mat &xk, float sigma) {
 
 	sum = 1.0/sum;
 
-	for(int i = 0; i < size; i++ )
+	for(int i = 0; i < size; i++ ) // divide by the total sum
 		xxk[i] = xxk[i] * sum;
 
 }
+
+// Creation of the hybrid image
+//-------------------------------------------------------------------------------------
 
 Mat createHighLow(Mat &src, Mat &src1, Mat &low, Mat &high, float sigma1, float sigma2, int border_type) {
     
     Mat aux, hybrid;
     
-    aux = GaussFilter(src, sigma1, border_type);
+    aux = GaussFilter(src, sigma1, border_type); // generate low frecuency image
     src.copyTo(high);
-    high -= aux;
+    high -= aux; // generate high frecuency image
     
-    //threshold(high, high, 0.0, 0.0, THRESH_TOZERO);
-   
     // put the low frecuency image in Mat low
     low = GaussFilter(src1, sigma2, border_type);
     
@@ -131,6 +144,9 @@ Mat createHighLow(Mat &src, Mat &src1, Mat &low, Mat &high, float sigma1, float 
     return hybrid;
     
 }
+
+// Draw various images in one canvas
+//-------------------------------------------------------------------------------------
 
 Mat createOne(vector<Mat> & images, int cols, int min_gap_size)
 {
@@ -169,27 +185,37 @@ Mat createOne(vector<Mat> & images, int cols, int min_gap_size)
     return result;
 }
 
+// Gauss Pyramid with x levels
+//-------------------------------------------------------------------------------------
 
 vector<Mat> gaussPyramid(Mat &src, int levels) {
     
     if(src.type() == 0)
-        cvtColor(src, src, CV_GRAY2BGR, 3);
+        cvtColor(src, src, CV_GRAY2BGR, 3); // convert to color image
     
     Mat aux, img = src;
     
-    vector<Mat> v;
-    v.push_back(src);
+    vector<Mat> v; // output vector of images
+    v.push_back(src); // include initial input image
     
-    for(int i = 0; i < levels; i++) {
+    for(int i = 0; i < levels; i++) { // for each level
         
-        pyrDown(img, aux);
+        pyrDown(img, aux); // reduce and smooth image
         
-        v.push_back(aux);
+        v.push_back(aux); // add to the output
         
         aux.copyTo(img);
     }
     
     return v;
+    
+    
+    /*-------------------------------------------------------------------------------------
+        Implementation of the function pyrDown(). It is commented because the original
+        works way better. Basically it makes usage of my implementation of the gauss
+        filter and shrink to half the image by deleting the odd rows and columns.
+    /-------------------------------------------------------------------------------------*/
+
     
     /*if(src.type() == 0)
         cvtColor(src, src, CV_GRAY2BGR, 3);
@@ -223,6 +249,9 @@ vector<Mat> gaussPyramid(Mat &src, int levels) {
     return v;*/
 }
 
+// Calculate the first derivative of the kernel
+//-------------------------------------------------------------------------------------
+
 Mat firstDerivative(float sigma) {
     
     int middle = ((sigma * 6)/2);
@@ -243,6 +272,9 @@ Mat firstDerivative(float sigma) {
     
     return kernel;
 }
+
+// Calculate the second derivative of the kernel
+//-------------------------------------------------------------------------------------
 
 Mat secondDerivative(float sigma) {
     

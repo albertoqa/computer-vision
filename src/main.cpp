@@ -22,10 +22,10 @@ int main (int argc, const char * argv[])
     // Image Lecture
     //-------------------------------------------------------------------------------------
 
-	Mat fm = imread("/Users/alberto/Desktop/dev/computer-vision/src/images/dog.bmp", 1);
+	Mat fm = imread("/Users/alberto/Desktop/dev/computer-vision/src/images/bird.bmp", 0);
     if( !fm.data ) { printf("Error loading src \n"); return -1; }
 
-    Mat fm1 = imread("/Users/alberto/Desktop/dev/computer-vision/src/images/cat.bmp", 0);
+    Mat fm1 = imread("/Users/alberto/Desktop/dev/computer-vision/src/images/plane.bmp", 0);
     if( !fm1.data ) { printf("Error loading src \n"); return -1; }
 
     Mat src, src1, dst;
@@ -78,7 +78,7 @@ int main (int argc, const char * argv[])
     dd.create(fm.size(), fm.type());
 
     blur(fm, edges, Size(3,3));
-    Canny(edges, edges, 10, 30);
+    Canny(edges, edges, 100, 255);
     
     dd = Scalar::all(0);
     fm.copyTo( dd, edges);
