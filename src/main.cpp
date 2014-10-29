@@ -22,10 +22,10 @@ int main (int argc, const char * argv[])
     // Image Lecture
     //-------------------------------------------------------------------------------------
 
-	Mat fm = imread("/Users/alberto/Desktop/dev/computer-vision/src/images/bird.bmp", 0);
+	Mat fm = imread("/image/bird.bmp", 0);
     if( !fm.data ) { printf("Error loading src \n"); return -1; }
 
-    Mat fm1 = imread("/Users/alberto/Desktop/dev/computer-vision/src/images/plane.bmp", 0);
+    Mat fm1 = imread("/image/plane.bmp", 0);
     if( !fm1.data ) { printf("Error loading src \n"); return -1; }
 
     Mat src, src1, dst;
@@ -57,7 +57,7 @@ int main (int argc, const char * argv[])
     v.push_back(high);
     v.push_back(src);
     
-    dst = createOne(v, 5);
+    dst = createOne(v);
     showIM(dst, "dst");
 
     // Gaussian Pyramid
@@ -65,7 +65,7 @@ int main (int argc, const char * argv[])
 
     v = gaussPyramid(src, 5);
     
-    dst = createOne(v, 6);
+    dst = createOne(v);
     dst.convertTo(dst, CV_8UC3);
     convertScaleAbs(dst, dst);
     
@@ -87,10 +87,5 @@ int main (int argc, const char * argv[])
     
     //
     //-------------------------------------------------------------------------------------
-
-    
-    
-    
-    
 
 }

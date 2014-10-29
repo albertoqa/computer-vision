@@ -148,7 +148,7 @@ Mat createHighLow(Mat &src, Mat &src1, Mat &low, Mat &high, float sigma1, float 
 // Draw various images in one canvas
 //-------------------------------------------------------------------------------------
 
-Mat createOne(vector<Mat> & images, int cols)
+Mat createOne(vector<Mat> & images)
 {
     // find out the maximum dimensions
     int max_width = 0;
@@ -165,7 +165,7 @@ Mat createOne(vector<Mat> & images, int cols)
     size_t i = 0;
     int current_height = 0;
     int current_width = 0;
-    for ( int x = 0; x < cols; x++ ) {
+    for ( int x = 0; x < images.size(); x++ ) {
         
         if ( i >= images.size() )
             return result;
