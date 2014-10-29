@@ -22,10 +22,10 @@ int main (int argc, const char * argv[])
     // Image Lecture
     //-------------------------------------------------------------------------------------
 
-	Mat fm = imread("./src/images/bird.bmp", 0);
+	Mat fm = imread("./src/images/dog.bmp", 1);
     if( !fm.data ) { printf("Error loading src \n"); return -1; }
 
-    Mat fm1 = imread("./src/images/plane.bmp", 0);
+    Mat fm1 = imread("./src/images/cat.bmp", 1);
     if( !fm1.data ) { printf("Error loading src \n"); return -1; }
 
     Mat src, src1, dst;
@@ -35,7 +35,7 @@ int main (int argc, const char * argv[])
     // Gauss Filter
     //-------------------------------------------------------------------------------------
     
-    dst = GaussFilter(src, 3, 0);
+    dst = GaussFilter(src, 5, 0);
     dst.convertTo(dst, CV_8U);
     convertScaleAbs(dst, dst);
     showIM(dst, "dst");
@@ -44,7 +44,7 @@ int main (int argc, const char * argv[])
     //-------------------------------------------------------------------------------------
     
     Mat low, high;
-    src = createHighLow(src, src1, low, high, 2, 5, 0);
+    src = createHighLow(src, src1, low, high, 4, 5, 0);
     
     //threshold(high, high, 0.0, 0.0, THRESH_TOZERO);
     
