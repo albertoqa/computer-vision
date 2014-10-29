@@ -200,4 +200,45 @@ vector<Mat> gaussPyramid(Mat &src, int levels) {
     return v;
 }
 
+Mat firstDerivative(float sigma) {
+    
+    int middle = ((sigma * 6)/2);
+    float x, tmp;
+    
+    Mat kernel;
+    createGaussKernel(kernel, sigma);
+    float *xxk = kernel.ptr<float>();
+    
+    xxk[middle] = 0.0;
+    
+    for(int i = 1; i < middle+1; i++) {
+        x = (float)i;
+        tmp = -x / (sigma*sigma) * xxk[middle + i];
+        xxk[middle + i] = -tmp;
+        xxk[middle - i] = tmp;
+    }
+    
+    return kernel;
+}
+
+Mat secondDerivative(float sigma) {
+    
+    int middle = ((sigma * 6)/2);
+    float x, tmp;
+    
+    Mat kernel;
+    createGaussKernel(kernel, sigma);
+    float *xxk = kernel.ptr<float>();
+    
+    xxk[middle] *= -1.0/(sigma*sigma);
+    
+    for(int i = 1; i < middle+1; i++) {
+        x = (float)i;
+        tmp = (x * x / sigma*sigma - 1.0) * xxk[middle + i] / (sigma*sigma);
+        xxk[middle + i] = tmp;
+        xxk[middle - i] = tmp;
+    }
+    
+    return kernel;
+}
 

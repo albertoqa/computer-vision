@@ -18,6 +18,8 @@ void createGaussKernel(Mat &xk, float sigma);
 Mat createHighLow(Mat &src, Mat &src1, Mat &low, Mat &high, float sigma1, float sigma2, int border_type);
 vector<Mat> gaussPyramid(Mat &src, int levels);
 cv::Mat createOne(std::vector<cv::Mat> & images, int cols, int min_gap_size);
+Mat firstDerivative(float sigma);
+Mat secondDerivative(float sigma);
 
 
 //void dFilterA(Mat &src, Mat &mask, Mat &dst);
