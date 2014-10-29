@@ -22,10 +22,10 @@ int main (int argc, const char * argv[])
     // Image Lecture
     //-------------------------------------------------------------------------------------
 
-	Mat fm = imread("/image/bird.bmp", 0);
+	Mat fm = imread("./src/images/bird.bmp", 0);
     if( !fm.data ) { printf("Error loading src \n"); return -1; }
 
-    Mat fm1 = imread("/image/plane.bmp", 0);
+    Mat fm1 = imread("./src/images/plane.bmp", 0);
     if( !fm1.data ) { printf("Error loading src \n"); return -1; }
 
     Mat src, src1, dst;
