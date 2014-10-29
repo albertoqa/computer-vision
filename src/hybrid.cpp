@@ -178,28 +178,41 @@ Mat createOne(vector<Mat> & images, int cols, int min_gap_size)
 
 
 vector<Mat> gaussPyramid(Mat &src, int levels) {
-        
+    
     if(src.type() == 0)
         cvtColor(src, src, CV_GRAY2BGR, 3);
     
-    Mat newS, smooth, img;
-    Mat aux(src.rows, src.cols, CV_32F, 0.0);
-    src.copyTo(smooth);
-    
-    cvtColor(src, src, 3);
+    Mat aux, img = src;
     
     vector<Mat> v;
     v.push_back(src);
     
     for(int i = 0; i < levels; i++) {
         
-        //GaussFilter(img, aux, 3, 0);
-        //pyrDown(img, aux);
-        //smooth.create(<#int _rows#>, <#int _cols#>, <#int _type#>)
-        //newS = smooth(src.rows/2, src.cols, CV_32F, 0.0);
-        //newS = aux(Rect(0, (src.rows - (smooth.rows/2)), smooth.cols/2, smooth.rows/2));
+        pyrDown(img, aux);
         
-        smooth = GaussFilter(smooth, 3.0, 0);
+        v.push_back(aux);
+        
+        aux.copyTo(img);
+    }
+    
+    return v;
+    
+    /*if(src.type() == 0)
+        cvtColor(src, src, CV_GRAY2BGR, 3);
+    
+    Mat newS, smooth;
+    src.copyTo(smooth);
+    
+    cvtColor(smooth, smooth, 3);
+    
+    vector<Mat> v;
+    v.push_back(smooth);
+    
+    for(int i = 0; i < levels; i++) {
+     
+        newS.create(smooth.rows/2, smooth.cols/2, CV_32F);
+        smooth = GaussFilter(smooth, 1.0, 0);
         
         for(int r = 0, r1 = 0; r < newS.rows; r++, r1 = r1+2) {
             for(int c = 0, c1 = 0; c < newS.cols; c++, c1 = c1+2) {
@@ -209,13 +222,12 @@ vector<Mat> gaussPyramid(Mat &src, int levels) {
         
         v.push_back(newS);
         
-        //smooth.create(newS.rows, newS.cols, CV_32F);
-
+        smooth.create(smooth.rows/2, smooth.cols/2, CV_32F);
         newS.copyTo(smooth);
         
     }
     
-    return v;
+    return v;*/
 }
 
 Mat firstDerivative(float sigma) {
