@@ -8,7 +8,7 @@
 
 #include "panorama.h"
 
-vector<hpoint> harrisPoints(Mat &src) {
+Mat harrisPoints(Mat &src) {
     
     if(src.type() != 0)
         cvtColor(src, src, CV_RGB2GRAY);
@@ -19,7 +19,7 @@ vector<hpoint> harrisPoints(Mat &src) {
     
     vector<hpoint> hpoints;
     vector<Mat> pyramid = gaussPyramid(src, levels), hmat;
-    Mat aux, haux;
+    Mat aux, haux, out;
     hpoint paux;
     
     for(int i = 0; i < pyramid.size(); i++) {
@@ -43,9 +43,23 @@ vector<hpoint> harrisPoints(Mat &src) {
         hmat.push_back(haux);
     }
     
+    // falta supresión de non-máximos
     
     
-    return hpoints;
+    for(int i = 0; i < 1000; i++) {
+        
+        hpoints.push_back(<#const_reference __x#>);
+    }
+    
+    
+    
+    src.copyTo(out);
+    cvtColor(out, out, CV_GRAY2RGB, 3);
+    for(int i = 0; i < hpoints.size(); i++) {
+        //circle( out, Point(i,j), 4, Scalar( rng.uniform(0,255), rng.uniform(0,255), rng.uniform(0,255) ), -1, 8, 0 ); }
+    }
+        
+    return out;
 }
 
 

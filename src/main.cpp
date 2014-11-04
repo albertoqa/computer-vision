@@ -11,6 +11,7 @@
 #include "blend.h"
 #include "aux.h"
 #include "hybrid.h"
+#include "panorama.h"
 
 using namespace std;
 using namespace cv;
@@ -32,6 +33,15 @@ int main (int argc, const char * argv[])
     convertToFloat(fm, src);
     convertToFloat(fm1, src1);
 
+    dst = harrisPoints(src);
+    
+    showIM(dst, "harris");
+    
+    
+    
+    
+    
+    /*
     // Gauss Filter
     //-------------------------------------------------------------------------------------
     
@@ -87,5 +97,7 @@ int main (int argc, const char * argv[])
     
     //
     //-------------------------------------------------------------------------------------
-
+    */
+     
+     
 }
