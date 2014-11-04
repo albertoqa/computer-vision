@@ -8,13 +8,14 @@
 
 #include "panorama.h"
 
-vector<hpoint> harriPoints(Mat &src) {
+vector<hpoint> harrisPoints(Mat &src) {
     
     if(src.type() != 0)
         cvtColor(src, src, CV_RGB2GRAY);
     
     int levels = 4, blocksize = 10, ksize = 6;
-    double k = 0.04, hvalue;
+    float k = 0.04, hvalue;
+    float x, y;
     
     vector<hpoint> hpoints;
     vector<Mat> pyramid = gaussPyramid(src, levels);
@@ -26,7 +27,19 @@ vector<hpoint> harriPoints(Mat &src) {
         aux.zeros(pyramid[i].size(), CV_32FC1);
         
         cornerEigenValsAndVecs(pyramid[i], aux, blocksize, ksize);
-        hvalue = harriValue(k);
+        
+        for(int j = 0; j < pyramid[i].rows; j++) {
+            for (int z = 0; z < pyramid[i].cols; z++) {
+                
+                x = aux.at<Vec6f>(j, z)[0];
+                y = aux.at<Vec6f>(j, z)[1];
+                
+                hvalue = harrisValue(k, x, y);
+                
+            }
+        }
+        
+        
         
     }
     
@@ -36,12 +49,10 @@ vector<hpoint> harriPoints(Mat &src) {
 }
 
 
-double harriValue(double k) {
+float harrisValue(float k, float x, float y) {
     
-    double value;
+    // Harris = Ix*Iy - k * (Ix+Iy)^2
     
-    
-    
-    
-    return value;
+    return ((x*y) - k*pow(x+y, 2));
+
 }

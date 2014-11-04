@@ -22,7 +22,7 @@ struct hpoint {
     
 };
 
-vector<hpoint> harriPoints(Mat &src);
-
+vector<hpoint> harrisPoints(Mat &src);
+float harrisValue(float k, float x, float y);
 
 #endif /* defined(__computer_vision__panorama__) */
