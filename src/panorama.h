@@ -11,6 +11,8 @@
 
 #include <stdio.h>
 #include "opencv2/opencv.hpp"
+#include "hybrid.h"
+
 using namespace cv;
 
 struct hpoint {

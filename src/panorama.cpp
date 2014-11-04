@@ -7,3 +7,14 @@
 //
 
 #include "panorama.h"
+
+
+vector<hpoint> harryPoints(Mat &src) {
+    
+    int levels = 4;
+    vector<hpoint> hpoints;
+    vector<Mat> pyramid = gaussPyramid(src, levels);
+    
+    
+    return hpoints;
+}
