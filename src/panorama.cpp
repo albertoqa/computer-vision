@@ -13,7 +13,7 @@ Mat harrisPoints(Mat &src) {
     if(src.type() != 0)
         cvtColor(src, src, CV_RGB2GRAY);
     
-    int levels = 4, blocksize = 10, ksize = 6;
+    int levels = 4, blocksize = 10, ksize = 6, num_points = 1000;
     float k = 0.04, hvalue;
     float x, y;
     
@@ -44,9 +44,10 @@ Mat harrisPoints(Mat &src) {
     }
     
     // falta supresión de non-máximos
+    supNonMax(hmat, 7);
     
     
-    for(int i = 0; i < 1000; i++) {
+    for(int i = 0; i < num_points; i++) {
         
         hpoints.push_back(<#const_reference __x#>);
     }
@@ -60,6 +61,14 @@ Mat harrisPoints(Mat &src) {
     }
         
     return out;
+}
+
+void supNonMax(vector<Mat> &hmat, int size) {
+    
+    
+    
+    
+    
 }
 
 

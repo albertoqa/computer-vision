@@ -18,11 +18,13 @@ using namespace cv;
 struct hpoint {
     
     int x, y, level;
+    float value;
     //falta orientación
     
 };
 
 Mat harrisPoints(Mat &src);
 float harrisValue(float k, float x, float y);
+void supNonMax(vector<Mat> &hmat, int size);
 
 #endif /* defined(__computer_vision__panorama__) */
