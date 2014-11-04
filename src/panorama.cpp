@@ -18,13 +18,14 @@ vector<hpoint> harrisPoints(Mat &src) {
     float x, y;
     
     vector<hpoint> hpoints;
-    vector<Mat> pyramid = gaussPyramid(src, levels);
-    
-    Mat aux;
+    vector<Mat> pyramid = gaussPyramid(src, levels), hmat;
+    Mat aux, haux;
+    hpoint paux;
     
     for(int i = 0; i < pyramid.size(); i++) {
         
         aux.zeros(pyramid[i].size(), CV_32FC1);
+        haux.zeros(pyramid[i].size(), CV_32FC1);
         
         cornerEigenValsAndVecs(pyramid[i], aux, blocksize, ksize);
         
@@ -35,12 +36,11 @@ vector<hpoint> harrisPoints(Mat &src) {
                 y = aux.at<Vec6f>(j, z)[1];
                 
                 hvalue = harrisValue(k, x, y);
-                
+                haux.at<float>(j,z) = hvalue;
             }
         }
         
-        
-        
+        hmat.push_back(haux);
     }
     
     
