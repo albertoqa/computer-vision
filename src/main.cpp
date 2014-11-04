@@ -23,11 +23,11 @@ int main (int argc, const char * argv[])
     // Image Lecture
     //-------------------------------------------------------------------------------------
 
-	Mat fm = imread("./src/images/dog.bmp", 1);
+	Mat fm = imread("/Users/alberto/Desktop/dev/computer-vision/src/images/Yosemite.jpg", 1);
     if( !fm.data ) { printf("Error loading src \n"); return -1; }
 
     Mat fm1 = imread("./src/images/cat.bmp", 1);
-    if( !fm1.data ) { printf("Error loading src \n"); return -1; }
+    //if( !fm1.data ) { printf("Error loading src \n"); return -1; }
 
     Mat src, src1, dst;
     convertToFloat(fm, src);
@@ -35,6 +35,8 @@ int main (int argc, const char * argv[])
 
     dst = harrisPoints(src);
     
+    dst.convertTo(dst, CV_8U);
+    convertScaleAbs(dst, dst);
     showIM(dst, "harris");
     
     

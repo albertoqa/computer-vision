@@ -7,9 +7,10 @@
 //
 
 #include "panorama.h"
+#include "aux.h"
 
 bool compareValue(const hpoint &v1, const hpoint &v2) {
-    return v1.value < v2.value;
+    return v1.value > v2.value;
 }
 
 Mat harrisPoints(Mat &src) {
@@ -17,7 +18,7 @@ Mat harrisPoints(Mat &src) {
     if(src.type() != 0)
         cvtColor(src, src, CV_RGB2GRAY);
     
-    int levels = 4, blocksize = 10, ksize = 6, num_points = 1000;
+    int levels = 4, blocksize = 10, ksize = 5, num_points = 1000;
     float k = 0.04, hvalue;
     float x, y;
     
@@ -25,6 +26,7 @@ Mat harrisPoints(Mat &src) {
     vector<Mat> pyramid = gaussPyramid(src, levels), hmat;
     Mat aux, haux, out;
     hpoint paux;
+    src.copyTo(haux);
     
     for(int i = 0; i < pyramid.size(); i++) {
         
@@ -41,6 +43,7 @@ Mat harrisPoints(Mat &src) {
                 
                 hvalue = harrisValue(k, x, y);
                 haux.at<float>(j,z) = hvalue;
+                //cout << hvalue << endl;
             }
         }
         
@@ -52,30 +55,23 @@ Mat harrisPoints(Mat &src) {
     for(int i = 0; i < hmat.size(); i++) {
         for(int j = 0; j < hmat[i].rows; j++) {
             for (int z = 0; z < hmat[i].cols; z++) {
-                if (hmat[i].at<float>(j, z) == 255) {
+                //if (hmat[i].at<float>(j, z) == 255) {
                     paux.x = j;
                     paux.y = z;
-                    paux.level = i;
+                    paux.level = i+1;
                     paux.value = hmat[i].at<float>(j, z);
                     hpoints.push_back(paux);
-                }
+                //}
             }
         }
     }
 
     sort(hpoints.begin(), hpoints.end(), compareValue);
-    
-    for(int i = 0; i < num_points; i++) {
-        
-        //hpoints.push_back(<#const_reference __x#>);
-    }
-    
-    
-    
+
     src.copyTo(out);
     cvtColor(out, out, CV_GRAY2RGB, 3);
-    for(int i = 0; i < hpoints.size(); i++) {
-        //circle( out, Point(((hpoints[i].x)*(hpoints[i].level)),((hpoints[i].y)*(hpoints[i].level))), 4, Scalar( rng.uniform(0,255), rng.uniform(0,255), rng.uniform(0,255) ), -1, 8, 0 ); }
+    for(int i = 0; i < num_points; i++) {
+        circle( out, Point(hpoints[i].x,hpoints[i].y), 4, Scalar(0,0,0), -1, 8, 0);
     }
         
     return out;
