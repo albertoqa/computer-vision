@@ -9,11 +9,26 @@
 #include "panorama.h"
 
 
-vector<hpoint> harryPoints(Mat &src) {
+vector<hpoint> harriPoints(Mat &src) {
+    
+    if(src.type() != 0)
+        cvtColor(src, src, CV_RGB2GRAY);
     
     int levels = 4;
     vector<hpoint> hpoints;
     vector<Mat> pyramid = gaussPyramid(src, levels);
+    
+    Mat aux;
+    
+    
+    for(int i = 0; i < pyramid.size(); i++) {
+        
+        
+        cornerEigenValsAndVecs(pyramid[i], aux, 10, 6);
+        
+        
+    }
+    
     
     
     return hpoints;
