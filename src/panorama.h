@@ -22,5 +22,7 @@ struct hpoint {
     
 };
 
+vector<hpoint> harriPoints(Mat &src);
+
 
 #endif /* defined(__computer_vision__panorama__) */
