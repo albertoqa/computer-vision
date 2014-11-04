@@ -8,6 +8,10 @@
 
 #include "panorama.h"
 
+bool compareValue(const hpoint &v1, const hpoint &v2) {
+    return v1.value < v2.value;
+}
+
 Mat harrisPoints(Mat &src) {
     
     if(src.type() != 0)
@@ -43,13 +47,27 @@ Mat harrisPoints(Mat &src) {
         hmat.push_back(haux);
     }
     
-    // falta supresión de non-máximos
     supNonMax(hmat, 7);
     
+    for(int i = 0; i < hmat.size(); i++) {
+        for(int j = 0; j < hmat[i].rows; j++) {
+            for (int z = 0; z < hmat[i].cols; z++) {
+                if (hmat[i].at<float>(j, z) == 255) {
+                    paux.x = j;
+                    paux.y = z;
+                    paux.level = i;
+                    paux.value = hmat[i].at<float>(j, z);
+                    hpoints.push_back(paux);
+                }
+            }
+        }
+    }
+
+    sort(hpoints.begin(), hpoints.end(), compareValue);
     
     for(int i = 0; i < num_points; i++) {
         
-        hpoints.push_back(<#const_reference __x#>);
+        //hpoints.push_back(<#const_reference __x#>);
     }
     
     
@@ -57,7 +75,7 @@ Mat harrisPoints(Mat &src) {
     src.copyTo(out);
     cvtColor(out, out, CV_GRAY2RGB, 3);
     for(int i = 0; i < hpoints.size(); i++) {
-        //circle( out, Point(i,j), 4, Scalar( rng.uniform(0,255), rng.uniform(0,255), rng.uniform(0,255) ), -1, 8, 0 ); }
+        //circle( out, Point(((hpoints[i].x)*(hpoints[i].level)),((hpoints[i].y)*(hpoints[i].level))), 4, Scalar( rng.uniform(0,255), rng.uniform(0,255), rng.uniform(0,255) ), -1, 8, 0 ); }
     }
         
     return out;
@@ -71,7 +89,6 @@ void supNonMax(vector<Mat> &hmat, int size) {
     
 }
 
-
 float harrisValue(float k, float x, float y) {
     
     // Harris = Ix*Iy - k * (Ix+Iy)^2
@@ -79,3 +96,11 @@ float harrisValue(float k, float x, float y) {
     return ((x*y) - k*pow(x+y, 2));
 
 }
+
+
+
+
+
+
+
+
