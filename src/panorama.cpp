@@ -55,13 +55,13 @@ Mat harrisPoints(Mat &src) {
     for(int i = 0; i < hmat.size(); i++) {
         for(int j = 0; j < hmat[i].rows; j++) {
             for (int z = 0; z < hmat[i].cols; z++) {
-                //if (hmat[i].at<float>(j, z) == 255) {
+                if (hmat[i].at<float>(j, z) == 255) {
                     paux.x = j;
                     paux.y = z;
                     paux.level = i+1;
                     paux.value = hmat[i].at<float>(j, z);
                     hpoints.push_back(paux);
-                //}
+                }
             }
         }
     }
