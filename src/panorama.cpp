@@ -50,22 +50,25 @@ Mat harrisPoints(Mat &src) {
         hmat.push_back(haux);
     }
     
+    // en hmat tengo 4 matrices con los puntos harris en cada una de ellas (piramides)
     supNonMax(hmat, 7);
     
     for(int i = 0; i < hmat.size(); i++) {
         for(int j = 0; j < hmat[i].rows; j++) {
             for (int z = 0; z < hmat[i].cols; z++) {
-                if (hmat[i].at<float>(j, z) == 255) {
+                // una vez hecha la supresión de non maximos, que puntos me quedo?
+               // if (hmat[i].at<float>(j, z) == 255) {
                     paux.x = j;
                     paux.y = z;
                     paux.level = i+1;
                     paux.value = hmat[i].at<float>(j, z);
                     hpoints.push_back(paux);
-                }
+               // }
             }
         }
     }
 
+    //como los distribuyo entre las distintas escalas?
     sort(hpoints.begin(), hpoints.end(), compareValue);
 
     src.copyTo(out);
@@ -77,6 +80,7 @@ Mat harrisPoints(Mat &src) {
     return out;
 }
 
+// preguntar esta función
 void supNonMax(vector<Mat> &hmat, int size) {
     
     
