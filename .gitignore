@@ -6,7 +6,7 @@
 
 
 build/*
-*.xcuserdata
+*.xcuserdatad
 xcuserdata/*
 
 # Precompiled Headers
