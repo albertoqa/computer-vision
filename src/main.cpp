@@ -9,7 +9,6 @@
 #include <iostream>
 #include "opencv2/opencv.hpp"
 #include "blend.h"
-#include "aux.h"
 #include "hybrid.h"
 #include "panorama.h"
 
@@ -17,22 +16,31 @@ using namespace std;
 using namespace cv;
 
 
+void showIM(Mat &src, string windowName){
+    
+    namedWindow(windowName, CV_WINDOW_AUTOSIZE);
+    imshow(windowName, src);
+    waitKey();
+    destroyWindow(windowName);
+    
+}
+
 int main (int argc, const char * argv[])
 {
     
     // Image Lecture
     //-------------------------------------------------------------------------------------
-
-	Mat fm = imread("/Users/alberto/Desktop/dev/computer-vision/src/images/Yosemite.jpg", 1);
-    if( !fm.data ) { printf("Error loading src \n"); return -1; }
-
-    Mat fm1 = imread("./src/images/cat.bmp", 1);
-    //if( !fm1.data ) { printf("Error loading src \n"); return -1; }
-
-    Mat src, src1, dst;
-    convertToFloat(fm, src);
-    convertToFloat(fm1, src1);
-
+    
+    Mat src = imread("/Users/alberto/Desktop/dev/computer-vision/src/images/lena.jpg", 1);
+    
+    if( !src.data ) {
+        printf("Error loading src \n"); return -1;
+    }
+    
+    Mat dst;
+    //convertToFloat(fm, src);
+    //convertToFloat(fm1, src1);
+    
     dst = harrisPoints(src);
     //cornerHarris(src, dst, 2, 3, 0.04);
     
@@ -40,67 +48,4 @@ int main (int argc, const char * argv[])
     convertScaleAbs(dst, dst);
     showIM(dst, "harris");
     
-    
-    
-    
-    
-    /*
-    // Gauss Filter
-    //-------------------------------------------------------------------------------------
-    
-    dst = GaussFilter(src, 5, 0);
-    dst.convertTo(dst, CV_8U);
-    convertScaleAbs(dst, dst);
-    showIM(dst, "dst");
-    
-    // High and low frecuency + hybrid image
-    //-------------------------------------------------------------------------------------
-    
-    Mat low, high;
-    src = createHighLow(src, src1, low, high, 4, 5, 0);
-    
-    //threshold(high, high, 0.0, 0.0, THRESH_TOZERO);
-    
-    convertScaleAbs(low, low);
-    convertScaleAbs(high, high);
-    convertScaleAbs(src, src);
-    
-    vector<Mat> v;
-    v.push_back(low);
-    v.push_back(high);
-    v.push_back(src);
-    
-    dst = createOne(v);
-    showIM(dst, "dst");
-
-    // Gaussian Pyramid
-    //-------------------------------------------------------------------------------------
-
-    v = gaussPyramid(src, 5);
-    
-    dst = createOne(v);
-    dst.convertTo(dst, CV_8UC3);
-    convertScaleAbs(dst, dst);
-    
-    showIM(dst, "input");
-    
-    // Bonus 2 - Canny edge detection
-    //-------------------------------------------------------------------------------------
-
-    Mat dd, edges;
-    dd.create(fm.size(), fm.type());
-
-    blur(fm, edges, Size(3,3));
-    Canny(edges, edges, 10, 30);
-    
-    dd = Scalar::all(0);
-    fm.copyTo( dd, edges);
-    
-    showIM(dd, "edges");
-    
-    //
-    //-------------------------------------------------------------------------------------
-    */
-     
-     
 }

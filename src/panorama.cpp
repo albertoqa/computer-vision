@@ -13,192 +13,40 @@ bool compareValue(const hpoint &v1, const hpoint &v2) {
     return v1.value > v2.value;
 }
 
+float harrisValue(float k, float x, float y) {
+    return ((x*y) - k*pow(x+y, 2));
+}
+
 Mat harrisPoints(Mat &src) {
     
-    if(src.type() != 0) {
-        cvtColor(src, src, CV_RGB2GRAY);
-    }
+    Mat src_gray;
+    Mat myHarris_dst; Mat myHarris_copy; Mat Mc;
     
-    int levels = 0, blocksize = 10, ksize = 5, num_points = 1000;
-    float k = 0.04, hvalue;
-    float x, y;
+    cvtColor( src, src_gray, COLOR_BGR2GRAY );
     
-    vector<hpoint> hpoints;
-    vector<Mat> pyramid = gaussPyramid(src, levels), hmat;
-    Mat aux, haux, out;
-    hpoint paux;
-    src.copyTo(haux);
+    int blockSize = 3; int apertureSize = 3;
     
-    for(int i = 0; i < pyramid.size(); i++) {
-        
-        aux.zeros(pyramid[i].size(), CV_32FC1);
-        haux.zeros(pyramid[i].size(), CV_32FC1);
-        
-        cornerEigenValsAndVecs(pyramid[i], aux, blocksize, ksize);
-        
-        for(int j = 0; j < pyramid[i].rows; j++) {
-            for (int z = 0; z < pyramid[i].cols; z++) {
-                
-                x = aux.at<Vec6f>(j, z)[0];
-                y = aux.at<Vec6f>(j, z)[1];
-                
-                hvalue = harrisValue(k, x, y);
-                haux.at<float>(j,z) = hvalue;
-                //cout << hvalue << endl;
-            }
-        }
-        
-        hmat.push_back(haux);
-    }
+    myHarris_dst = Mat::zeros( src_gray.size(), CV_32FC(6) );
+    Mc = Mat::zeros( src_gray.size(), CV_32FC1 );
     
-    vector<Mat> auxiliar;
+    cornerEigenValsAndVecs( src_gray, myHarris_dst, blockSize, apertureSize, BORDER_DEFAULT );
     
-    for(int i = 0; i < pyramid.size(); i++) {
-        Mat aux (pyramid[i].rows, pyramid[i].cols, CV_32FC1, 255);
-        //aux.zeros(pyramid[i].size(), CV_32FC1);
-        auxiliar.push_back(aux);
-    }
-    
-    // en hmat tengo 4 matrices con los puntos harris en cada una de ellas (piramides)
-    supNonMax(hmat, 7, auxiliar);
-        
-    for(int i = 0; i < hmat.size(); i++) {
-        for(int j = 0; j < hmat[i].rows; j++) {
-            for (int z = 0; z < hmat[i].cols; z++) {
-                if (auxiliar[i].at<float>(j, z) == 255) {
-                    paux.x = j;
-                    paux.y = z;
-                    paux.level = i+1;
-                    paux.value = hmat[i].at<float>(j, z);
-                    hpoints.push_back(paux);
-                }
-            }
-        }
-    }
-
-    //como los distribuyo entre las distintas escalas?
-    sort(hpoints.begin(), hpoints.end(), compareValue);
-
-    src.copyTo(out);
-    //cvtColor(out, out, CV_GRAY2RGB, 3);
-    for(int i = 0; i < num_points; i++) {
-        circle( out, Point(hpoints[i].x * hpoints[i].level,hpoints[i].y * hpoints[i].level), 4, Scalar(0,0,0), -1, 8, 0);
-    }
-        
-    return out;
-}
-
-// preguntar esta función
-void supNonMax(vector<Mat> &hmat, int size, vector<Mat> &auxiliar) {
-    
-    //int x = size/2, y = size/2;
-    
-    for(int i = 0; i < hmat.size(); i++) {
-        for(int j = 0; j < hmat[i].rows; j++) {
-            for (int z = 0; z < hmat[i].cols; ) {
-                if(auxiliar[i].at<float>(j,z) == 255) {
-                    if(isMax(hmat[i], j, z , size)){
-                        //poner a cero el entorno
-                        zeroEnv(auxiliar[i], size, j, z);
-                        z = z + size/2;
-                    }
-                    else {
-                        auxiliar[i].at<float>(j,z) = 0;
-                        //j++;
-                        z++;
-                    }
-                }
-                else
-                    z++;
-            }
-        }
-    }
-
-}
-
-void zeroEnv(Mat &m, int x, int y, int size){
-    int a, b, c, d;
-    
-    if(x - size/2 < 0)
-        a = 0;
-    else
-        a = x-size/2;
-    if(y - size/2 < 0)
-        b = 0;
-    else
-        b = y-size/2;
-    
-    if(x + size/2 >= m.rows)
-        c = m.rows;
-    else
-        c = x+size/2;
-    if(y + size/2 >= m.cols)
-        d = m.cols;
-    else
-        d = y+size/2;
-    
-    for(int i = a; i < c; i++) {
-        for(int j = b; j < d; j++) {
-            m.at<float>(i,j) = 0;
+    for( int j = 0; j < src_gray.rows; j++ ) {
+        for( int i = 0; i < src_gray.cols; i++ ) {
+            float lambda_1 = myHarris_dst.at<Vec6f>(j, i)[0];
+            float lambda_2 = myHarris_dst.at<Vec6f>(j, i)[1];
+            Mc.at<float>(j,i) = harrisValue(0.04, lambda_1, lambda_2);
         }
     }
     
-    m.at<float>(x,y) = 255;
-
+    double myHarris_minVal; double myHarris_maxVal;
+    minMaxLoc( Mc, &myHarris_minVal, &myHarris_maxVal, 0, 0, Mat() );
+    
+    cout << myHarris_maxVal;
+    
+    
+    return src_gray;
+    
 }
-
-bool isMax(Mat &m, int x, int y, int size) {
-    
-    bool max = false;
-    int a, b, c, d;
-    
-    float maximum = 0;
-    if(x - size/2 < 0)
-        a = 0;
-    else
-        a = x-size/2;
-    if(y - size/2 < 0)
-        b = 0;
-    else
-        b = y-size/2;
-    
-    if(x + size/2 >= m.rows)
-        c = m.rows;
-    else
-        c = x+size/2;
-    if(y + size/2 >= m.cols)
-        d = m.cols;
-    else
-        d = y+size/2;
-
-        
-    for(int i = a; i < c; i++) {
-        for(int j = b; j < d; j++) {
-            if(m.at<float>(i,j) > maximum)
-                maximum = m.at<float>(i,j);
-        }
-    }
-    
-    if(maximum == m.at<float>(x,y)) {
-        max = true;
-    }
-    
-    
-    return max;
-}
-
-float harrisValue(float k, float x, float y) {
-    
-    // Harris = Ix*Iy - k * (Ix+Iy)^2
-    
-    return ((x*y) - k*pow(x+y, 2));
-
-}
-
-
-
-
-
-
 
 

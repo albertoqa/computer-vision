@@ -12,8 +12,6 @@
 		D3BFBB5E19EAF64B00E1BCE7 /* libopencv_imgproc.2.4.10.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D3BFBB5D19EAF64B00E1BCE7 /* libopencv_imgproc.2.4.10.dylib */; };
 		D3BFBB6019EAF64E00E1BCE7 /* libopencv_highgui.2.4.10.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D3BFBB5F19EAF64E00E1BCE7 /* libopencv_highgui.2.4.10.dylib */; };
 		D3BFBB6219EAF65200E1BCE7 /* libopencv_core.2.4.10.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D3BFBB6119EAF65200E1BCE7 /* libopencv_core.2.4.10.dylib */; };
-		D3BFBB7A19EB087200E1BCE7 /* aux.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D3BFBB7819EB087200E1BCE7 /* aux.cpp */; };
-		D3BFBB7E19EB173B00E1BCE7 /* blend.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D3BFBB6919EAFC5E00E1BCE7 /* blend.cpp */; };
 		D3FEA55119EAF3FB002B7F08 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D3FEA55019EAF3FA002B7F08 /* main.cpp */; };
 /* End PBXBuildFile section */
 
@@ -39,7 +37,6 @@
 		D3BFBB6119EAF65200E1BCE7 /* libopencv_core.2.4.10.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libopencv_core.2.4.10.dylib; path = ../../../../../opt/local/lib/libopencv_core.2.4.10.dylib; sourceTree = "<group>"; };
 		D3BFBB6319EAF96400E1BCE7 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
 		D3BFBB6819EAFC0A00E1BCE7 /* lena.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = lena.jpg; sourceTree = "<group>"; };
-		D3BFBB6919EAFC5E00E1BCE7 /* blend.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = blend.cpp; sourceTree = "<group>"; };
 		D3BFBB6B19EAFF9800E1BCE7 /* bicycle.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = bicycle.bmp; sourceTree = "<group>"; };
 		D3BFBB6C19EAFF9800E1BCE7 /* bird.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = bird.bmp; sourceTree = "<group>"; };
 		D3BFBB6D19EAFF9800E1BCE7 /* cat.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = cat.bmp; sourceTree = "<group>"; };
@@ -50,10 +47,6 @@
 		D3BFBB7219EAFF9800E1BCE7 /* motorcycle.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = motorcycle.bmp; sourceTree = "<group>"; };
 		D3BFBB7319EAFF9800E1BCE7 /* plane.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = plane.bmp; sourceTree = "<group>"; };
 		D3BFBB7419EAFF9800E1BCE7 /* submarine.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = submarine.bmp; sourceTree = "<group>"; };
-		D3BFBB7519EB015600E1BCE7 /* blend.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = blend.h; sourceTree = "<group>"; };
-		D3BFBB7819EB087200E1BCE7 /* aux.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = aux.cpp; sourceTree = "<group>"; };
-		D3BFBB7919EB087200E1BCE7 /* aux.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = aux.h; sourceTree = "<group>"; };
-		D3BFBB7B19EB10ED00E1BCE7 /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; name = Makefile; path = ../Makefile; sourceTree = "<group>"; };
 		D3FEA54D19EAF3FA002B7F08 /* computer-vision */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "computer-vision"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D3FEA55019EAF3FA002B7F08 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -112,16 +105,11 @@
 		D3FEA54F19EAF3FA002B7F08 /* src */ = {
 			isa = PBXGroup;
 			children = (
-				D3BFBB7819EB087200E1BCE7 /* aux.cpp */,
-				D3BFBB7919EB087200E1BCE7 /* aux.h */,
-				D3BFBB6919EAFC5E00E1BCE7 /* blend.cpp */,
-				D3BFBB7519EB015600E1BCE7 /* blend.h */,
 				D372BBAA19EB2BEF00497064 /* hybrid.cpp */,
 				D372BBAB19EB2BEF00497064 /* hybrid.h */,
 				D31EABE51A08E4A30082A22B /* panorama.cpp */,
 				D31EABE61A08E4A30082A22B /* panorama.h */,
 				D3FEA55019EAF3FA002B7F08 /* main.cpp */,
-				D3BFBB7B19EB10ED00E1BCE7 /* Makefile */,
 				D3BFBB6719EAFC0A00E1BCE7 /* images */,
 				D3BFBB6319EAF96400E1BCE7 /* README.md */,
 			);
@@ -185,9 +173,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D31EABE71A08E4A30082A22B /* panorama.cpp in Sources */,
-				D3BFBB7E19EB173B00E1BCE7 /* blend.cpp in Sources */,
 				D372BBAC19EB2BEF00497064 /* hybrid.cpp in Sources */,
-				D3BFBB7A19EB087200E1BCE7 /* aux.cpp in Sources */,
 				D3FEA55119EAF3FB002B7F08 /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
