@@ -17,6 +17,15 @@ float harrisValue(float k, float x, float y) {
     return ((x*y) - k*pow(x+y, 2));
 }
 
+void supNonMax(Mat &Mc, Mat &binary_maximum, int window) {
+    
+    //int num_windows = (Mc.rows/window) * (Mc.cols/window) ;
+    
+    
+    
+}
+
+
 Mat harrisPoints(Mat &src) {
     
     Mat src_gray, myHarris_dst, myHarris_copy, Mc, out;
@@ -43,6 +52,14 @@ Mat harrisPoints(Mat &src) {
     
     double myHarris_minVal; double myHarris_maxVal;
     minMaxLoc( Mc, &myHarris_minVal, &myHarris_maxVal, 0, 0, Mat() );
+    
+    
+    ////////////////////////////////////////////
+    
+    Mat binary_maximum (Mc.size(), 255);
+    
+    supNonMax(Mc, binary_maximum, 7);
+    
     
     /*Mat aux (src_gray.rows, src_gray.cols, CV_32FC1, 255);
     vector<Mat> auxiliar;
@@ -96,6 +113,25 @@ Mat harrisPoints(Mat &src) {
     
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
 void supNonMax(vector<Mat> &hmat, int size, vector<Mat> &auxiliar) {
     
     //int x = size/2, y = size/2;
@@ -195,7 +231,7 @@ bool isMax(Mat &m, int x, int y, int size) {
 }
 
 
-
+*/
 
 /*
  
