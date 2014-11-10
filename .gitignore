@@ -4,6 +4,10 @@
 *.o
 *.obj
 
+
+build/*
+*.xcuserdatad
+
 # Precompiled Headers
 *.gch
 *.pch
