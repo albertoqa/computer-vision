@@ -50,9 +50,16 @@ Mat harrisPoints(Mat &src) {
         hmat.push_back(haux);
     }
     
-    // en hmat tengo 4 matrices con los puntos harris en cada una de ellas (piramides)
-    supNonMax(hmat, 7);
+    vector<Mat> auxiliar;
     
+    for(int i = 0; i < pyramid.size(); i++) {
+        aux.zeros(pyramid[i].size(), CV_32FC1);
+        auxiliar.push_back(aux);
+    }
+    
+    // en hmat tengo 4 matrices con los puntos harris en cada una de ellas (piramides)
+    supNonMax(hmat, 7, auxiliar);
+        
     for(int i = 0; i < hmat.size(); i++) {
         for(int j = 0; j < hmat[i].rows; j++) {
             for (int z = 0; z < hmat[i].cols; z++) {
@@ -81,7 +88,7 @@ Mat harrisPoints(Mat &src) {
 }
 
 // preguntar esta función
-void supNonMax(vector<Mat> &hmat, int size) {
+void supNonMax(vector<Mat> &hmat, int size, vector<Mat> &auxiliar) {
     
     
     
