@@ -15,10 +15,11 @@ bool compareValue(const hpoint &v1, const hpoint &v2) {
 
 Mat harrisPoints(Mat &src) {
     
-    if(src.type() != 0)
+    if(src.type() != 0) {
         cvtColor(src, src, CV_RGB2GRAY);
+    }
     
-    int levels = 4, blocksize = 10, ksize = 5, num_points = 1000;
+    int levels = 0, blocksize = 10, ksize = 5, num_points = 1000;
     float k = 0.04, hvalue;
     float x, y;
     
@@ -53,7 +54,8 @@ Mat harrisPoints(Mat &src) {
     vector<Mat> auxiliar;
     
     for(int i = 0; i < pyramid.size(); i++) {
-        aux.zeros(pyramid[i].size(), CV_32FC1);
+        Mat aux (pyramid[i].rows, pyramid[i].cols, CV_32FC1, 255);
+        //aux.zeros(pyramid[i].size(), CV_32FC1);
         auxiliar.push_back(aux);
     }
     
@@ -63,14 +65,13 @@ Mat harrisPoints(Mat &src) {
     for(int i = 0; i < hmat.size(); i++) {
         for(int j = 0; j < hmat[i].rows; j++) {
             for (int z = 0; z < hmat[i].cols; z++) {
-                // una vez hecha la supresión de non maximos, que puntos me quedo?
-               // if (hmat[i].at<float>(j, z) == 255) {
+                if (auxiliar[i].at<float>(j, z) == 255) {
                     paux.x = j;
                     paux.y = z;
                     paux.level = i+1;
                     paux.value = hmat[i].at<float>(j, z);
                     hpoints.push_back(paux);
-               // }
+                }
             }
         }
     }
@@ -79,9 +80,9 @@ Mat harrisPoints(Mat &src) {
     sort(hpoints.begin(), hpoints.end(), compareValue);
 
     src.copyTo(out);
-    cvtColor(out, out, CV_GRAY2RGB, 3);
+    //cvtColor(out, out, CV_GRAY2RGB, 3);
     for(int i = 0; i < num_points; i++) {
-        circle( out, Point(hpoints[i].x,hpoints[i].y), 4, Scalar(0,0,0), -1, 8, 0);
+        circle( out, Point(hpoints[i].x * hpoints[i].level,hpoints[i].y * hpoints[i].level), 4, Scalar(0,0,0), -1, 8, 0);
     }
         
     return out;
@@ -90,10 +91,100 @@ Mat harrisPoints(Mat &src) {
 // preguntar esta función
 void supNonMax(vector<Mat> &hmat, int size, vector<Mat> &auxiliar) {
     
+    //int x = size/2, y = size/2;
+    
+    for(int i = 0; i < hmat.size(); i++) {
+        for(int j = 0; j < hmat[i].rows; j++) {
+            for (int z = 0; z < hmat[i].cols; ) {
+                if(auxiliar[i].at<float>(j,z) == 255) {
+                    if(isMax(hmat[i], j, z , size)){
+                        //poner a cero el entorno
+                        zeroEnv(auxiliar[i], size, j, z);
+                        z = z + size/2;
+                    }
+                    else {
+                        auxiliar[i].at<float>(j,z) = 0;
+                        //j++;
+                        z++;
+                    }
+                }
+                else
+                    z++;
+            }
+        }
+    }
+
+}
+
+void zeroEnv(Mat &m, int x, int y, int size){
+    int a, b, c, d;
+    
+    if(x - size/2 < 0)
+        a = 0;
+    else
+        a = x-size/2;
+    if(y - size/2 < 0)
+        b = 0;
+    else
+        b = y-size/2;
+    
+    if(x + size/2 >= m.rows)
+        c = m.rows;
+    else
+        c = x+size/2;
+    if(y + size/2 >= m.cols)
+        d = m.cols;
+    else
+        d = y+size/2;
+    
+    for(int i = a; i < c; i++) {
+        for(int j = b; j < d; j++) {
+            m.at<float>(i,j) = 0;
+        }
+    }
+    
+    m.at<float>(x,y) = 255;
+
+}
+
+bool isMax(Mat &m, int x, int y, int size) {
+    
+    bool max = false;
+    int a, b, c, d;
+    
+    float maximum = 0;
+    if(x - size/2 < 0)
+        a = 0;
+    else
+        a = x-size/2;
+    if(y - size/2 < 0)
+        b = 0;
+    else
+        b = y-size/2;
+    
+    if(x + size/2 >= m.rows)
+        c = m.rows;
+    else
+        c = x+size/2;
+    if(y + size/2 >= m.cols)
+        d = m.cols;
+    else
+        d = y+size/2;
+
+        
+    for(int i = a; i < c; i++) {
+        for(int j = b; j < d; j++) {
+            if(m.at<float>(i,j) > maximum)
+                maximum = m.at<float>(i,j);
+        }
+    }
+    
+    if(maximum == m.at<float>(x,y)) {
+        max = true;
+    }
     
     
-    
-    
+    return max;
 }
 
 float harrisValue(float k, float x, float y) {

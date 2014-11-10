@@ -34,6 +34,7 @@ int main (int argc, const char * argv[])
     convertToFloat(fm1, src1);
 
     dst = harrisPoints(src);
+    //cornerHarris(src, dst, 2, 3, 0.04);
     
     dst.convertTo(dst, CV_8U);
     convertScaleAbs(dst, dst);

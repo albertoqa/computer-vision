@@ -26,5 +26,7 @@ struct hpoint {
 Mat harrisPoints(Mat &src);
 float harrisValue(float k, float x, float y);
 void supNonMax(vector<Mat> &hmat, int size, vector<Mat> &auxiliar);
+bool isMax(Mat &m, int x, int y, int size);
+void zeroEnv(Mat &m, int x, int y, int size);
 
 #endif /* defined(__computer_vision__panorama__) */
