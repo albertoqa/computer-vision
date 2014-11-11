@@ -19,9 +19,44 @@ float harrisValue(float k, float x, float y) {
 
 void supNonMax(Mat &Mc, Mat &binary_maximum, int window) {
     
-    //int num_windows = (Mc.rows/window) * (Mc.cols/window) ;
+    if(window%2 == 0)
+        window++;
+    if(window < 3)
+        window = 3;
     
+    int centrox, centroy;
+    centrox = window/2;
+    centroy = window/2;
     
+    int tamx = Mc.rows - window/2;
+    int tamy = Mc.cols - window/2;
+    
+    for(int i = centrox; i < tamx; i++) {
+        for(int j = centroy; j < tamy; j++) {
+            
+            if(binary_maximum.at<float>(i,j) == 255) {
+                
+                bool max = false;
+                double max_val;
+                
+                //crear ROI para pasarselo a minmaxloc
+                Mat ROI = Mc( Rect(i-window/2,j-window/2,window,window) );
+                minMaxLoc(ROI, NULL, &max_val);
+                
+                if(max_val == Mc.at<float>(i,j))
+                    max = true;
+                
+                if(max) {
+                    //ponerl su alrededor a 0
+                    ROI = 0.0;
+                    ROI.at<float>(i,j) = 255;
+                }
+                else {
+                    binary_maximum.at<float>(i,j) = 0;
+                }
+            }
+        }
+    }
     
 }
 
