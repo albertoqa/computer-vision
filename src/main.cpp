@@ -31,7 +31,7 @@ int main (int argc, const char * argv[])
     // Image Lecture
     //-------------------------------------------------------------------------------------
     
-    Mat src = imread("/Users/alberto/Desktop/dev/computer-vision/src/images/lena.jpg", 1);
+    Mat src = imread("/Users/alberto/Desktop/dev/computer-vision/src/images/Yosemite2.jpg", 1);
     
     if( !src.data ) {
         printf("Error loading src \n"); return -1;
@@ -43,5 +43,6 @@ int main (int argc, const char * argv[])
     
     dst = harrisPoints(src);
     //cornerHarris(src, dst, 2, 3, 0.04);
+    showIM(dst, "hola");
     
 }

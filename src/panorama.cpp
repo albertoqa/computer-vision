@@ -31,30 +31,32 @@ void supNonMax(Mat &Mc, Mat &binary_maximum, int window) {
     int tamx = Mc.rows - window/2;
     int tamy = Mc.cols - window/2;
     
+    //cout << "Columnas: " << Mc.cols << endl;
+    //cout << "Filas: " << Mc.rows << endl;
+    
     for(int i = centrox; i < tamx; i++) {
         for(int j = centroy; j < tamy; j++) {
             
             if(binary_maximum.at<float>(i,j) == 255) {
-                
+                //cout << i << "  " << j << endl;
                 bool max = false;
                 double max_val;
                 
                 //crear ROI para pasarselo a minmaxloc
                 // error found!!! change Mc for binary_maximum
-                Mat ROI = Mc( Rect(i-window/2,j-window/2,window,window) );
-                minMaxLoc(ROI, NULL, &max_val);
+                Mat ROI_Mc = Mc( Rect(j-window/2, i-window/2, window, window) );
+                Mat ROI_bin = binary_maximum( Rect(j-window/2, i-window/2, window, window) );
+                minMaxLoc(ROI_Mc, NULL, &max_val);
                 
                 if(float(max_val) == Mc.at<float>(i,j))
                     max = true;
                 
                 if(max) {
                     //ponerl su alrededor a 0
-                    ROI = 0.0;
-                    ROI.at<float>(centrox,centroy) = 255;
+                    ROI_bin = 0.0;
+                    ROI_bin.at<float>(centrox,centroy) = 255;
                 }
                 else {
-                    //cout << "ss";
-
                     binary_maximum.at<float>(i,j) = 0;
                 }
             }
@@ -111,22 +113,13 @@ Mat harrisPoints(Mat &src) {
     Mat binary_maximum (Mc.rows, Mc.cols, Mc.type(), Scalar::all(255));
     supNonMax(Mc, binary_maximum, 7);
     
-    /*int h = 0;
-    for(int i = 0; i < binary_maximum.rows; i++){
-        for(int j = 0; j < binary_maximum.cols; j++)
-            //cout << binary_maximum.at<float>(i,j) << "  ";
-            if(binary_maximum.at<float>(i,j) == 255)
-                h++;
-        //cout << endl;
-    }
-    cout << h;*/
-    
     for(int i = 0; i < binary_maximum.rows; i++) {
         for(int j = 0; j < binary_maximum.cols; j++) {
             if(binary_maximum.at<float>(i,j) == 255) {
                 paux.x = i;
                 paux.y = j;
                 paux.value = Mc.at<float>(i,j);
+                paux.level = 1;
                 hpoints.push_back(paux);
             }
         }
@@ -137,58 +130,14 @@ Mat harrisPoints(Mat &src) {
     for(int i = 0; i < hpoints.size(); i++)
         cout << hpoints[i].value << "   ";
     
-    
-    
-    /*Mat aux (src_gray.rows, src_gray.cols, CV_32FC1, 255);
-    vector<Mat> auxiliar;
-    auxiliar.push_back(aux);
-    
-    vector<Mat> hmat;
-    hmat.push_back(Mc);
-    
-    supNonMax(hmat, 7, auxiliar);
-    
-    for(int j = 0; j < Mc.rows; j++) {
-        for (int z = 0; z < Mc.cols; z++) {
-            if (aux.at<float>(j, z) == 255) {
-                paux.x = j;
-                paux.y = z;
-                paux.level = 1;
-                paux.value = hmat[0].at<float>(j, z);
-                hpoints.push_back(paux);
-            }
-        }
-    }
-    
-    //como los distribuyo entre las distintas escalas?
-    sort(hpoints.begin(), hpoints.end(), compareValue);
-
     src_gray.copyTo(out);
     cvtColor(out, out, CV_GRAY2RGB, 3);
     for(int i = 0; i < num_points; i++) {
-        circle( out, Point(hpoints[i].x * hpoints[i].level,hpoints[i].y * hpoints[i].level), 4, Scalar(0,0,0), -1, 8, 0);
-    }*/
+        circle( out, Point(hpoints[i].y * hpoints[i].level,hpoints[i].x * hpoints[i].level), 4, Scalar(0,0,0), -1, 8, 0);
+    }
     
-    myHarris_copy = src.clone();
     
-    int myHarris_qualityLevel = 50;
-    int max_qualityLevel = 100;
-    
-    for( int j = 0; j < src_gray.rows; j++ )
-    { for( int i = 0; i < src_gray.cols; i++ )
-    {
-        if( Mc.at<float>(j,i) > myHarris_minVal + ( myHarris_maxVal - myHarris_minVal )*myHarris_qualityLevel/max_qualityLevel )
-        { circle( myHarris_copy, Point(i,j), 4, Scalar( 0,0,0 ), -1, 8, 0 ); }
-    }}
-    
-    const char* myHarris_window = "My Harris corner detector";
-
-    namedWindow( myHarris_window, WINDOW_AUTOSIZE );
-
-    imshow( myHarris_window, myHarris_copy );
-
-    
-    return myHarris_copy;
+        return out;
     
 }
 
