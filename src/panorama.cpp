@@ -40,10 +40,11 @@ void supNonMax(Mat &Mc, Mat &binary_maximum, int window) {
                 double max_val;
                 
                 //crear ROI para pasarselo a minmaxloc
+                // error found!!! change Mc for binary_maximum
                 Mat ROI = Mc( Rect(i-window/2,j-window/2,window,window) );
                 minMaxLoc(ROI, NULL, &max_val);
                 
-                if(max_val == Mc.at<float>(i,j))
+                if(float(max_val) == Mc.at<float>(i,j))
                     max = true;
                 
                 if(max) {
@@ -110,7 +111,7 @@ Mat harrisPoints(Mat &src) {
     Mat binary_maximum (Mc.rows, Mc.cols, Mc.type(), Scalar::all(255));
     supNonMax(Mc, binary_maximum, 7);
     
-    int h = 0;
+    /*int h = 0;
     for(int i = 0; i < binary_maximum.rows; i++){
         for(int j = 0; j < binary_maximum.cols; j++)
             //cout << binary_maximum.at<float>(i,j) << "  ";
@@ -118,7 +119,25 @@ Mat harrisPoints(Mat &src) {
                 h++;
         //cout << endl;
     }
-    cout << h;
+    cout << h;*/
+    
+    for(int i = 0; i < binary_maximum.rows; i++) {
+        for(int j = 0; j < binary_maximum.cols; j++) {
+            if(binary_maximum.at<float>(i,j) == 255) {
+                paux.x = i;
+                paux.y = j;
+                paux.value = Mc.at<float>(i,j);
+                hpoints.push_back(paux);
+            }
+        }
+    }
+    
+    sort(hpoints.begin(), hpoints.end(), compareValue);
+
+    for(int i = 0; i < hpoints.size(); i++)
+        cout << hpoints[i].value << "   ";
+    
+    
     
     /*Mat aux (src_gray.rows, src_gray.cols, CV_32FC1, 255);
     vector<Mat> auxiliar;
