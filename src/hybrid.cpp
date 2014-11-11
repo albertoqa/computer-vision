@@ -186,8 +186,8 @@ Mat createOne(vector<Mat> & images)
 
 vector<Mat> gaussPyramid(Mat &src, int levels) {
     
-    if(src.type() == 0)
-        cvtColor(src, src, CV_GRAY2BGR, 3); // convert to color image
+    //if(src.type() == 0)
+    //    cvtColor(src, src, CV_GRAY2BGR, 3); // convert to color image
     
     Mat aux, img = src;
     

@@ -84,44 +84,52 @@ Mat harrisPoints(Mat &src) {
     
     Mat src_gray, myHarris_dst, myHarris_copy, Mc, out;
     vector<hpoint> hpoints;
+    vector<Mat> vMc;
     hpoint paux;
     
     cvtColor( src, src_gray, COLOR_BGR2GRAY );
-    
-    int levels = 0, blocksize = 3, ksize = 5, num_points = 1000;
+
+    int levels = 4, blocksize = 3, ksize = 5, num_points = 1000;
     float k = 0.04;
     
     ////////////////////////////////////////////
     
-    myHarris_dst = Mat::zeros( src_gray.size(), CV_32FC(6) );
-    Mc = Mat::zeros( src_gray.size(), CV_32FC1 );
+    vector<Mat> pyramid = gaussPyramid(src_gray, levels);
     
-    cornerEigenValsAndVecs( src_gray, myHarris_dst, blocksize, ksize, BORDER_DEFAULT );
-    
-    for( int j = 0; j < src_gray.rows; j++ ) {
-        for( int i = 0; i < src_gray.cols; i++ ) {
-            float lambda_1 = myHarris_dst.at<Vec6f>(j, i)[0];
-            float lambda_2 = myHarris_dst.at<Vec6f>(j, i)[1];
-            Mc.at<float>(j,i) = harrisValue(k, lambda_1, lambda_2);
+    for(int l = 0; l < levels; l++) {
+        
+        myHarris_dst = Mat::zeros( pyramid[l].size(), CV_32FC(6) );
+        Mc = Mat::zeros( pyramid[l].size(), CV_32FC1 );
+        
+        cornerEigenValsAndVecs( pyramid[l], myHarris_dst, blocksize, ksize, BORDER_DEFAULT );
+        
+        for( int j = 0; j < pyramid[l].rows; j++ ) {
+            for( int i = 0; i < pyramid[l].cols; i++ ) {
+                float lambda_1 = myHarris_dst.at<Vec6f>(j, i)[0];
+                float lambda_2 = myHarris_dst.at<Vec6f>(j, i)[1];
+                Mc.at<float>(j,i) = harrisValue(k, lambda_1, lambda_2);
+            }
         }
+        
+        vMc.push_back(Mc);
+        
     }
     
-    double myHarris_minVal; double myHarris_maxVal;
-    minMaxLoc( Mc, &myHarris_minVal, &myHarris_maxVal, 0, 0, Mat() );
-    
     ////////////////////////////////////////////
-    
-    Mat binary_maximum (Mc.rows, Mc.cols, Mc.type(), Scalar::all(255));
-    supNonMax(Mc, binary_maximum, 7);
-    
-    for(int i = 0; i < binary_maximum.rows; i++) {
-        for(int j = 0; j < binary_maximum.cols; j++) {
-            if(binary_maximum.at<float>(i,j) == 255) {
-                paux.x = i;
-                paux.y = j;
-                paux.value = Mc.at<float>(i,j);
-                paux.level = 1;
-                hpoints.push_back(paux);
+        
+    for(int l = 0; l < levels; l++) {
+        Mat binary_maximum (vMc[l].rows, vMc[l].cols, vMc[l].type(), Scalar::all(255));
+        supNonMax(vMc[l], binary_maximum, 7);
+        
+        for(int i = 0; i < binary_maximum.rows; i++) {
+            for(int j = 0; j < binary_maximum.cols; j++) {
+                if(binary_maximum.at<float>(i,j) == 255) {
+                    paux.x = i;
+                    paux.y = j;
+                    paux.value = vMc[l].at<float>(i,j);
+                    paux.level = l+1;
+                    hpoints.push_back(paux);
+                }
             }
         }
     }
@@ -133,7 +141,7 @@ Mat harrisPoints(Mat &src) {
     src_gray.copyTo(out);
     cvtColor(out, out, CV_GRAY2RGB, 3);
     for(int i = 0; i < num_points; i++) {
-        circle( out, Point(hpoints[i].y * hpoints[i].level,hpoints[i].x * hpoints[i].level), 4, Scalar(0,0,0), -1, 8, 0);
+        circle( out, Point(hpoints[i].y * hpoints[i].level,hpoints[i].x * hpoints[i].level), 2, Scalar(0,0,0), -1, 8, 0);
     }
     
     
