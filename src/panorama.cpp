@@ -31,8 +31,7 @@ void supNonMax(Mat &Mc, Mat &binary_maximum, int window) {
     int tamx = Mc.rows - window/2;
     int tamy = Mc.cols - window/2;
     
-    //cout << "Columnas: " << Mc.cols << endl;
-    //cout << "Filas: " << Mc.rows << endl;
+    ////////////////////////////////////////////
     
     for(int i = centrox; i < tamx; i++) {
         for(int j = centroy; j < tamy; j++) {
@@ -43,7 +42,6 @@ void supNonMax(Mat &Mc, Mat &binary_maximum, int window) {
                 double max_val;
                 
                 //crear ROI para pasarselo a minmaxloc
-                // error found!!! change Mc for binary_maximum
                 Mat ROI_Mc = Mc( Rect(j-window/2, i-window/2, window, window) );
                 Mat ROI_bin = binary_maximum( Rect(j-window/2, i-window/2, window, window) );
                 minMaxLoc(ROI_Mc, NULL, &max_val);
@@ -63,6 +61,8 @@ void supNonMax(Mat &Mc, Mat &binary_maximum, int window) {
         }
     }
     
+    ////////////////////////////////////////////
+
     //tengo que poner a cero los bordes
     for(int i = 0; i < window/2; i++)
         for(int j = 0; j < binary_maximum.cols; j++)
@@ -91,6 +91,8 @@ Mat harrisPoints(Mat &src) {
     int levels = 0, blocksize = 3, ksize = 5, num_points = 1000;
     float k = 0.04;
     
+    ////////////////////////////////////////////
+    
     myHarris_dst = Mat::zeros( src_gray.size(), CV_32FC(6) );
     Mc = Mat::zeros( src_gray.size(), CV_32FC1 );
     
@@ -106,7 +108,6 @@ Mat harrisPoints(Mat &src) {
     
     double myHarris_minVal; double myHarris_maxVal;
     minMaxLoc( Mc, &myHarris_minVal, &myHarris_maxVal, 0, 0, Mat() );
-    
     
     ////////////////////////////////////////////
     
@@ -127,6 +128,8 @@ Mat harrisPoints(Mat &src) {
     
     sort(hpoints.begin(), hpoints.end(), compareValue);
     
+    ////////////////////////////////////////////
+    
     src_gray.copyTo(out);
     cvtColor(out, out, CV_GRAY2RGB, 3);
     for(int i = 0; i < num_points; i++) {
@@ -134,7 +137,7 @@ Mat harrisPoints(Mat &src) {
     }
     
     
-        return out;
+    return out;
     
 }
 
