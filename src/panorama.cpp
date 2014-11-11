@@ -49,14 +49,30 @@ void supNonMax(Mat &Mc, Mat &binary_maximum, int window) {
                 if(max) {
                     //ponerl su alrededor a 0
                     ROI = 0.0;
-                    ROI.at<float>(i,j) = 255;
+                    ROI.at<float>(centrox,centroy) = 255;
                 }
                 else {
+                    //cout << "ss";
+
                     binary_maximum.at<float>(i,j) = 0;
                 }
             }
         }
     }
+    
+    //tengo que poner a cero los bordes
+    for(int i = 0; i < window/2; i++)
+        for(int j = 0; j < binary_maximum.cols; j++)
+            binary_maximum.at<float>(i,j) = 0;
+    for(int i = binary_maximum.rows-window/2; i < binary_maximum.rows; i++)
+        for(int j = 0; j < binary_maximum.cols; j++)
+            binary_maximum.at<float>(i,j) = 0;
+    for(int i = 0; i < window/2; i++)
+        for(int j = 0; j < binary_maximum.rows; j++)
+            binary_maximum.at<float>(j,i) = 0;
+    for(int i = binary_maximum.cols-window/2; i < binary_maximum.cols; i++)
+        for(int j = 0; j < binary_maximum.rows; j++)
+            binary_maximum.at<float>(j,i) = 0;
     
 }
 
@@ -91,10 +107,18 @@ Mat harrisPoints(Mat &src) {
     
     ////////////////////////////////////////////
     
-    Mat binary_maximum (Mc.size(), 255);
-    
+    Mat binary_maximum (Mc.rows, Mc.cols, Mc.type(), Scalar::all(255));
     supNonMax(Mc, binary_maximum, 7);
     
+    int h = 0;
+    for(int i = 0; i < binary_maximum.rows; i++){
+        for(int j = 0; j < binary_maximum.cols; j++)
+            //cout << binary_maximum.at<float>(i,j) << "  ";
+            if(binary_maximum.at<float>(i,j) == 255)
+                h++;
+        //cout << endl;
+    }
+    cout << h;
     
     /*Mat aux (src_gray.rows, src_gray.cols, CV_32FC1, 255);
     vector<Mat> auxiliar;
@@ -137,6 +161,7 @@ Mat harrisPoints(Mat &src) {
         if( Mc.at<float>(j,i) > myHarris_minVal + ( myHarris_maxVal - myHarris_minVal )*myHarris_qualityLevel/max_qualityLevel )
         { circle( myHarris_copy, Point(i,j), 4, Scalar( 0,0,0 ), -1, 8, 0 ); }
     }}
+    
     const char* myHarris_window = "My Harris corner detector";
 
     namedWindow( myHarris_window, WINDOW_AUTOSIZE );
