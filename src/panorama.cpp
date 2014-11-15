@@ -84,17 +84,17 @@ Mat harrisPoints(Mat &src) {
     
     Mat src_gray, myHarris_dst, myHarris_copy, Mc, out;
     vector<hpoint> hpoints;
-    vector<Mat> vMc;
+    vector<Mat> vMc, pyramid;
     hpoint paux;
     
     cvtColor( src, src_gray, COLOR_BGR2GRAY );
 
-    int levels = 4, blocksize = 3, ksize = 5, num_points = 1000;
+    int levels = 2, blocksize = 3, ksize = 5, num_points = 1000;
     float k = 0.04;
     
     ////////////////////////////////////////////
     
-    vector<Mat> pyramid = gaussPyramid(src_gray, levels);
+    pyramid = gaussPyramid(src_gray, levels);
     
     for(int l = 0; l < levels; l++) {
         
@@ -116,7 +116,7 @@ Mat harrisPoints(Mat &src) {
     }
     
     ////////////////////////////////////////////
-        
+    
     for(int l = 0; l < levels; l++) {
         Mat binary_maximum (vMc[l].rows, vMc[l].cols, vMc[l].type(), Scalar::all(255));
         supNonMax(vMc[l], binary_maximum, 7);
@@ -144,8 +144,13 @@ Mat harrisPoints(Mat &src) {
         circle( out, Point(hpoints[i].y * hpoints[i].level,hpoints[i].x * hpoints[i].level), 2, Scalar(0,0,0), -1, 8, 0);
     }
     
-    
+
     return out;
     
 }
+
+/// Starting with the question 2
+
+
+
 
