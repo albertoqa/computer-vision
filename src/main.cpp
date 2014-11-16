@@ -32,8 +32,8 @@ int main (int argc, const char * argv[])
     //convertToFloat(fm, src);
     //convertToFloat(fm1, src1);
     
-    dst = harrisPoints(src);
-    //cornerHarris(src, dst, 2, 3, 0.04);
-    //showIM(dst, "hola");
+    //dst = harrisPoints(src);
+
+    drawSIFT(src);
     
 }

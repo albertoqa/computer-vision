@@ -164,14 +164,14 @@ Mat harrisPoints(Mat &src) {
     src_gray.copyTo(out);
     cvtColor(out, out, CV_GRAY2RGB, 3);
     for(int i = 0; i < num_points; i++) {
-        RotatedRect r = RotatedRect(Point2f(hpoints[i].y * hpoints[i].level,hpoints[i].x * hpoints[i].level), Size2f(3*hpoints[i].level, 3*hpoints[i].level), hpoints[i].angle);
+        RotatedRect r = RotatedRect(Point2f(hpoints[i].y * hpoints[i].level,hpoints[i].x * hpoints[i].level), Size2f(6*hpoints[i].level, 6*hpoints[i].level), hpoints[i].angle);
         Point2f vertices[4];
         r.points(vertices);
         for (int i = 0; i < 4; i++)
             line(out, vertices[i], vertices[(i+1)%4], Scalar(0,255,0));
         
         float angle = hpoints[i].angle * CV_PI / 180.0;
-        int length = 3*hpoints[i].level;
+        int length = 6*hpoints[i].level;
         float x2 = (hpoints[i].x * hpoints[i].level) + length * cos(angle);
         float y2 = (hpoints[i].y * hpoints[i].level) + length * sin(angle);
         
@@ -233,5 +233,27 @@ void orientation() {
     
     
 }
+
+
+void drawSIFT(Mat &src) {
+    
+    Mat src_gray, out;
+    cvtColor( src, src_gray, COLOR_BGR2GRAY );
+
+    SiftFeatureDetector detector;
+    vector<KeyPoint> kp;
+    
+    detector.detect(src_gray, kp);
+    
+    src_gray.copyTo(out);
+    drawKeypoints(out, kp, out);
+    
+    showIM(out, "harris");   
+    
+}
+
+
+
+
 
 

@@ -11,6 +11,7 @@
 
 #include <stdio.h>
 #include "opencv2/opencv.hpp"
+#include "opencv2/nonfree/nonfree.hpp"
 #include "hybrid.h"
 
 using namespace cv;
@@ -30,5 +31,6 @@ void supNonMax(vector<Mat> &hmat, int size, vector<Mat> &auxiliar);
 bool isMax(Mat &m, int x, int y, int size);
 void zeroEnv(Mat &m, int x, int y, int size);
 void subpixelRef(vector<hpoint> &hpoints, int num_points, vector<Mat> &pyramid);
+void drawSIFT(Mat &src);
 
 #endif /* defined(__computer_vision__panorama__) */
