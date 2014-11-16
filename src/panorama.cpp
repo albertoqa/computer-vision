@@ -248,10 +248,27 @@ void drawSIFT(Mat &src) {
     src_gray.copyTo(out);
     drawKeypoints(out, kp, out);
     
-    showIM(out, "harris");   
+    showIM(out, "sift");
     
 }
 
+void drawSURF(Mat &src) {
+    
+    Mat src_gray, out;
+    cvtColor( src, src_gray, COLOR_BGR2GRAY );
+    
+    SurfFeatureDetector detector;
+    //SiftFeatureDetector detector;
+    vector<KeyPoint> kp;
+    
+    detector.detect(src_gray, kp);
+    
+    src_gray.copyTo(out);
+    drawKeypoints(out, kp, out);
+    
+    showIM(out, "surf");
+    
+}
 
 
 

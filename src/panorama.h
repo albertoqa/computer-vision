@@ -32,5 +32,6 @@ bool isMax(Mat &m, int x, int y, int size);
 void zeroEnv(Mat &m, int x, int y, int size);
 void subpixelRef(vector<hpoint> &hpoints, int num_points, vector<Mat> &pyramid);
 void drawSIFT(Mat &src);
+void drawSURF(Mat &src);
 
 #endif /* defined(__computer_vision__panorama__) */
