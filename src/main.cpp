@@ -22,9 +22,10 @@ int main (int argc, const char * argv[])
     // Image Lecture
     //-------------------------------------------------------------------------------------
     
-    Mat src = imread("/Users/alberto/Desktop/dev/computer-vision/src/images/Yosemite2.jpg", 1);
-    
-    if( !src.data ) {
+    Mat src = imread("/Users/alberto/Desktop/dev/computer-vision/src/images/Yosemite1.jpg", 1);
+    Mat src1 = imread("/Users/alberto/Desktop/dev/computer-vision/src/images/Yosemite2.jpg", 1);
+
+    if( !src.data || !src1.data ) {
         printf("Error loading src \n"); return -1;
     }
     
@@ -32,7 +33,7 @@ int main (int argc, const char * argv[])
     //convertToFloat(fm, src);
     //convertToFloat(fm1, src1);
     
-    //dst = harrisPoints(src);
+    dst = harrisPoints(src);
 
     drawSIFT(src);
     drawSURF(src);
