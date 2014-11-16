@@ -144,6 +144,10 @@ Mat harrisPoints(Mat &src) {
         circle( out, Point(hpoints[i].y * hpoints[i].level,hpoints[i].x * hpoints[i].level), 2, Scalar(0,0,0), -1, 8, 0);
     }
     
+    ////////////////////////////////////////////
+    
+    subpixelRef(hpoints, num_points, pyramid);
+
 
     return out;
     
@@ -151,6 +155,34 @@ Mat harrisPoints(Mat &src) {
 
 /// Starting with the question 2
 
-
+void subpixelRef(vector<hpoint> &hpoints, int num_points, vector<Mat> &pyramid) {
+    
+    vector<Point2f> corners;
+    Point2f p;
+    TermCriteria criteria = TermCriteria( CV_TERMCRIT_EPS + CV_TERMCRIT_ITER, 40, 0.001 );
+    
+    for(int y = 0; y < pyramid.size(); y++) {
+        
+        for(int i = 0; i < num_points; i++) {
+            if(hpoints[i].level == y+1) {
+                p.x = hpoints[i].x;
+                p.y = hpoints[i].y;
+                corners.push_back(p);
+            }
+        }
+        
+        cornerSubPix(pyramid[y], corners, Size(5,5), Size(-1,-1), criteria);
+        
+        int c = 0;
+        
+        for(int i = 0; i < num_points; i++) {
+            if(hpoints[i].level == y+1) {
+                hpoints[i].x = corners[c].x;
+                hpoints[i].y = corners[c].x;
+                c++;
+            }
+        }
+    }
+}
 
 
