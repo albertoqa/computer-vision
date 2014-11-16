@@ -161,7 +161,6 @@ Mat harrisPoints(Mat &src) {
     
     //llamar a orientation
     
-    
     src_gray.copyTo(out);
     cvtColor(out, out, CV_GRAY2RGB, 3);
     for(int i = 0; i < num_points; i++) {
@@ -170,13 +169,13 @@ Mat harrisPoints(Mat &src) {
         r.points(vertices);
         for (int i = 0; i < 4; i++)
             line(out, vertices[i], vertices[(i+1)%4], Scalar(0,255,0));
-                
+        
         float angle = hpoints[i].angle * CV_PI / 180.0;
-        int length = hpoints[i].level;
+        int length = 3*hpoints[i].level;
         float x2 = (hpoints[i].x * hpoints[i].level) + length * cos(angle);
         float y2 = (hpoints[i].y * hpoints[i].level) + length * sin(angle);
         
-        Point2f p2(x2,y2);
+        Point2f p2(y2,x2);
         line(out, Point2f(hpoints[i].y * hpoints[i].level, hpoints[i].x * hpoints[i].level), p2, Scalar(255,0,0));
         
     }
