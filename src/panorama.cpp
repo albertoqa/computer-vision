@@ -136,6 +136,8 @@ Mat harrisPoints(Mat &src) {
     
     sort(hpoints.begin(), hpoints.end(), compareValue);
     
+    subpixelRef(hpoints, num_points, pyramid);
+    
     ////////////////////////////////////////////
     
     src_gray.copyTo(out);
@@ -146,14 +148,12 @@ Mat harrisPoints(Mat &src) {
     
     ////////////////////////////////////////////
     
-    subpixelRef(hpoints, num_points, pyramid);
 
 
     return out;
     
 }
 
-/// Starting with the question 2
 
 void subpixelRef(vector<hpoint> &hpoints, int num_points, vector<Mat> &pyramid) {
     
@@ -178,7 +178,7 @@ void subpixelRef(vector<hpoint> &hpoints, int num_points, vector<Mat> &pyramid) 
         for(int i = 0; i < num_points; i++) {
             if(hpoints[i].level == y+1) {
                 hpoints[i].x = corners[c].x;
-                hpoints[i].y = corners[c].x;
+                hpoints[i].y = corners[c].y;
                 c++;
             }
         }
