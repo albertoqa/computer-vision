@@ -19,6 +19,7 @@ struct hpoint {
     
     int x, y, level;
     float value;
+    float angle;
     //falta orientación
     
 };

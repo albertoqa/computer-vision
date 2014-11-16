@@ -16,15 +16,6 @@ using namespace std;
 using namespace cv;
 
 
-void showIM(Mat &src, string windowName){
-    
-    namedWindow(windowName, CV_WINDOW_AUTOSIZE);
-    imshow(windowName, src);
-    waitKey();
-    destroyWindow(windowName);
-    
-}
-
 int main (int argc, const char * argv[])
 {
     
@@ -43,6 +34,6 @@ int main (int argc, const char * argv[])
     
     dst = harrisPoints(src);
     //cornerHarris(src, dst, 2, 3, 0.04);
-    showIM(dst, "hola");
+    //showIM(dst, "hola");
     
 }

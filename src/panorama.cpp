@@ -9,6 +9,16 @@
 #include "panorama.h"
 #include "aux.h"
 
+
+void showIM(Mat &src, string windowName){
+    
+    namedWindow(windowName, CV_WINDOW_AUTOSIZE);
+    imshow(windowName, src);
+    waitKey();
+    destroyWindow(windowName);
+    
+}
+
 bool compareValue(const hpoint &v1, const hpoint &v2) {
     return v1.value > v2.value;
 }
@@ -145,10 +155,30 @@ Mat harrisPoints(Mat &src) {
     for(int i = 0; i < num_points; i++) {
         circle( out, Point(hpoints[i].y * hpoints[i].level,hpoints[i].x * hpoints[i].level), 2, Scalar(0,0,0), -1, 8, 0);
     }
-    
+    showIM(out, "harris");
+
     ////////////////////////////////////////////
     
+    src_gray.copyTo(out);
+    cvtColor(out, out, CV_GRAY2RGB, 3);
+    for(int i = 0; i < num_points; i++) {
+        RotatedRect r = RotatedRect(Point2f(hpoints[i].y * hpoints[i].level,hpoints[i].x * hpoints[i].level), Size2f(3*hpoints[i].level, 3*hpoints[i].level), hpoints[i].angle);
+        Point2f vertices[4];
+        r.points(vertices);
+        for (int i = 0; i < 4; i++)
+            line(out, vertices[i], vertices[(i+1)%4], Scalar(0,255,0));
+        
+        //tengo que cambiar esto por el segundo punto a donde quiero dibujar la linea
+        Point2f p2(3,3);
+        line(out, Point2f(hpoints[i].y * hpoints[i].level,hpoints[i].x * hpoints[i].level), p2, Scalar(255,0,0));
+        
+    }
+    
+    showIM(out, "harris");
 
+    ////////////////////////////////////////////
+
+    
 
     return out;
     
