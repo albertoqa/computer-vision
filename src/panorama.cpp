@@ -271,7 +271,7 @@ void drawSURF(Mat &src) {
 }
 
 
-void matches(Mat &src, Mat &src1) {
+void matchesSurf(Mat &src, Mat &src1) {
     
     Mat src_gray, src1_gray;
     cvtColor(src, src_gray, COLOR_BGR2GRAY);
@@ -290,21 +290,53 @@ void matches(Mat &src, Mat &src1) {
     
     matcher.match( descriptor, descriptor1, matches );
     
-    cout << matches.size();
+    //cout << matches.size();
     
+    //pinto solo 20 puntos
     int size = matches.size();
     
     for(int i = 0; i < size-20; i++)
         matches.erase(matches.begin());
 
+    Mat img_matches;
+    drawMatches( src_gray, kp, src1_gray, kp1, matches, img_matches );
+    
+    showIM(img_matches, "matches");
+    
+}
+
+void matchesSift(Mat &src, Mat &src1) {
+    
+    Mat src_gray, src1_gray;
+    cvtColor(src, src_gray, COLOR_BGR2GRAY);
+    cvtColor(src1, src1_gray, COLOR_BGR2GRAY);
+    
+    SIFT sift;
+    
+    vector<KeyPoint> kp, kp1;
+    Mat descriptor, descriptor1;
+    
+    sift(src_gray, Mat(), kp, descriptor, false);
+    sift(src1_gray, Mat(), kp1, descriptor1, false);
+    
+    BFMatcher matcher( NORM_L2, true );
+    vector<DMatch> matches;
+    
+    matcher.match( descriptor, descriptor1, matches );
+    
+    //cout << matches.size();
+    
+    //pinto solo 20 puntos
+    int size = matches.size();
+    
+    for(int i = 0; i < size-20; i++)
+        matches.erase(matches.begin());
     
     Mat img_matches;
     drawMatches( src_gray, kp, src1_gray, kp1, matches, img_matches );
     
     showIM(img_matches, "matches");
     
-    
 }
-
 
 

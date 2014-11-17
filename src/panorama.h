@@ -33,6 +33,8 @@ void zeroEnv(Mat &m, int x, int y, int size);
 void subpixelRef(vector<hpoint> &hpoints, int num_points, vector<Mat> &pyramid);
 void drawSIFT(Mat &src);
 void drawSURF(Mat &src);
-void matches(Mat &src, Mat &src1);
+void matchesSurf(Mat &src, Mat &src1);
+void matchesSift(Mat &src, Mat &src1);
+
 
 #endif /* defined(__computer_vision__panorama__) */
