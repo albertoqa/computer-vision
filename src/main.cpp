@@ -35,7 +35,9 @@ int main (int argc, const char * argv[])
     
     dst = harrisPoints(src);
 
-    drawSIFT(src);
-    drawSURF(src);
+    //drawSIFT(src);
+    //drawSURF(src);
+    
+    matches(src, src1);
     
 }

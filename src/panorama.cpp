@@ -271,6 +271,40 @@ void drawSURF(Mat &src) {
 }
 
 
+void matches(Mat &src, Mat &src1) {
+    
+    Mat src_gray, src1_gray;
+    cvtColor(src, src_gray, COLOR_BGR2GRAY);
+    cvtColor(src1, src1_gray, COLOR_BGR2GRAY);
+    
+    SURF surf;
+    
+    vector<KeyPoint> kp, kp1;
+    Mat descriptor, descriptor1;
+    
+    surf(src_gray, Mat(), kp, descriptor, false);
+    surf(src1_gray, Mat(), kp1, descriptor1, false);
+    
+    BFMatcher matcher( NORM_L2, true );
+    vector<DMatch> matches;
+    
+    matcher.match( descriptor, descriptor1, matches );
+    
+    cout << matches.size();
+    
+    int size = matches.size();
+    
+    for(int i = 0; i < size-20; i++)
+        matches.erase(matches.begin());
+
+    
+    Mat img_matches;
+    drawMatches( src_gray, kp, src1_gray, kp1, matches, img_matches );
+    
+    showIM(img_matches, "matches");
+    
+    
+}
 
 
 
