@@ -383,6 +383,7 @@ void matchesSift(Mat &src, Mat &src1) {
     
 }
 
+// draw a mosaic/panorama of two images
 void mosaic(Mat &src, Mat &src1) {
     
     Mat src_gray, src1_gray;
@@ -409,24 +410,20 @@ void mosaic(Mat &src, Mat &src1) {
         im2.push_back( kp1[ matches[i].trainIdx ].pt );
     }
     
+    // find homography of the two images
     Mat homography = findHomography(im2, im1, CV_RANSAC, 1);
     
-    Mat out;
-    warpPerspective(src1_gray, out, homography, Size(src1_gray.cols*2,src1_gray.rows*2), INTER_CUBIC);
+    Mat warped;
+    warpPerspective(src1_gray, warped, homography, Size(src1_gray.cols*2,src1_gray.rows*2));
     
+    Mat out(Size(src1_gray.cols*2 + src_gray.cols, src1_gray.rows*2), src1_gray.type());
     
-    //warpPerspective(mImg2, warpImage2, H, Size(mImg2.cols*2, mImg2.rows*2), INTER_CUBIC);
-    
-    Mat final(Size(src1_gray.cols*2 + src_gray.cols, src1_gray.rows*2), src1_gray.type());
-    
-    //velikost img1
-    Mat roi1(final, Rect(0, 0,  src_gray.cols, src_gray.rows));
-    Mat roi2(final, Rect(0, 0, out.cols, out.rows));
-    out.copyTo(roi2);
+    Mat roi1(out, Rect(0, 0,  src_gray.cols, src_gray.rows));
+    Mat roi2(out, Rect(0, 0, warped.cols, warped.rows));
+    warped.copyTo(roi2);
     src_gray.copyTo(roi1);
-    //imshow("final", final);
     
-    showIM(final, "salida");
+    showIM(out, "salida");
 
     
 }
