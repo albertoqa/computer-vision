@@ -30,16 +30,14 @@ int main (int argc, const char * argv[])
     }
     
     Mat dst;
-    //convertToFloat(fm, src);
-    //convertToFloat(fm1, src1);
     
-    //dst = harrisPoints(src);
+    dst = harrisPoints(src);
 
-    //drawSIFT(src);
-    //drawSURF(src);
+    drawSIFT(src);
+    drawSURF(src);
     
-    //matchesSurf(src, src1);
-    //matchesSift(src, src1);
+    matchesSurf(src, src1);
+    matchesSift(src, src1);
     
     mosaic(src, src1);
 

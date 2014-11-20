@@ -27,6 +27,7 @@
 		D3E2CFF01A19086000FB81E0 /* libopencv_video.2.4.10.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D3E2CFE31A19086000FB81E0 /* libopencv_video.2.4.10.dylib */; };
 		D3E2CFF11A19086000FB81E0 /* libopencv_videostab.2.4.10.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D3E2CFE41A19086000FB81E0 /* libopencv_videostab.2.4.10.dylib */; };
 		D3FEA55119EAF3FB002B7F08 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D3FEA55019EAF3FA002B7F08 /* main.cpp */; };
+		D3FED4F51A1E295E007CA48F /* Makefile in Sources */ = {isa = PBXBuildFile; fileRef = D3FED4F41A1E295E007CA48F /* Makefile */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -77,6 +78,7 @@
 		D3E2CFE41A19086000FB81E0 /* libopencv_videostab.2.4.10.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libopencv_videostab.2.4.10.dylib; path = /opt/local/lib/libopencv_videostab.2.4.10.dylib; sourceTree = "<absolute>"; };
 		D3FEA54D19EAF3FA002B7F08 /* computer-vision */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "computer-vision"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D3FEA55019EAF3FA002B7F08 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		D3FED4F41A1E295E007CA48F /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -177,6 +179,7 @@
 				D3FEA55019EAF3FA002B7F08 /* main.cpp */,
 				D3BFBB6719EAFC0A00E1BCE7 /* images */,
 				D3BFBB6319EAF96400E1BCE7 /* README.md */,
+				D3FED4F41A1E295E007CA48F /* Makefile */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -239,6 +242,7 @@
 			files = (
 				D31EABE71A08E4A30082A22B /* panorama.cpp in Sources */,
 				D372BBAC19EB2BEF00497064 /* hybrid.cpp in Sources */,
+				D3FED4F51A1E295E007CA48F /* Makefile in Sources */,
 				D3FEA55119EAF3FB002B7F08 /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
