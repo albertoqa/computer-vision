@@ -285,6 +285,8 @@ void drawSIFT(Mat &src) {
     
     detector.detect(src_gray, kp);
     
+    //cout << kp.size() << endl;
+    
     src_gray.copyTo(out);
     drawKeypoints(out, kp, out);
     
@@ -303,6 +305,8 @@ void drawSURF(Mat &src) {
     vector<KeyPoint> kp;
     
     detector.detect(src_gray, kp);
+    
+    //cout << kp.size();
     
     src_gray.copyTo(out);
     drawKeypoints(out, kp, out);
@@ -405,17 +409,25 @@ void mosaic(Mat &src, Mat &src1) {
         im2.push_back( kp1[ matches[i].trainIdx ].pt );
     }
     
-    Mat homography = findHomography(im1, im2);
+    Mat homography = findHomography(im2, im1, CV_RANSAC, 1);
     
     Mat out;
-    out = out.zeros(src_gray.rows * 2, src_gray.cols * 2, src_gray.type());
+    warpPerspective(src1_gray, out, homography, Size(src1_gray.cols*2,src1_gray.rows*2), INTER_CUBIC);
     
-    warpPerspective(src, out, homography, Size(src.cols+src1.cols,src1.rows));
     
-    Mat half(out , Rect(0, 0, src1.cols, src1.rows));
-    src1.copyTo(half);
+    //warpPerspective(mImg2, warpImage2, H, Size(mImg2.cols*2, mImg2.rows*2), INTER_CUBIC);
     
-    showIM(out, "mosaic");
+    Mat final(Size(src1_gray.cols*2 + src_gray.cols, src1_gray.rows*2), src1_gray.type());
+    
+    //velikost img1
+    Mat roi1(final, Rect(0, 0,  src_gray.cols, src_gray.rows));
+    Mat roi2(final, Rect(0, 0, out.cols, out.rows));
+    out.copyTo(roi2);
+    src_gray.copyTo(roi1);
+    //imshow("final", final);
+    
+    showIM(final, "salida");
+
     
 }
 
