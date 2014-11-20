@@ -296,7 +296,7 @@ void matchesSurf(Mat &src, Mat &src1) {
     int size = matches.size();
     
     for(int i = 0; i < size-20; i++)
-        matches.erase(matches.begin());
+        matches.erase(matches.begin()+(rand() % matches.size()-1));
 
     Mat img_matches;
     drawMatches( src_gray, kp, src1_gray, kp1, matches, img_matches );
@@ -330,7 +330,7 @@ void matchesSift(Mat &src, Mat &src1) {
     int size = matches.size();
     
     for(int i = 0; i < size-20; i++)
-        matches.erase(matches.begin());
+        matches.erase(matches.begin()+(rand() % matches.size()-1));
     
     Mat img_matches;
     drawMatches( src_gray, kp, src1_gray, kp1, matches, img_matches );
@@ -338,5 +338,7 @@ void matchesSift(Mat &src, Mat &src1) {
     showIM(img_matches, "matches");
     
 }
+
+
 
 
