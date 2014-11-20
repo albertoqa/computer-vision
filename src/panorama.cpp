@@ -8,6 +8,7 @@
 
 #include "panorama.h"
 #include "aux.h"
+#include <math.h>
 
 
 void showIM(Mat &src, string windowName){
@@ -160,6 +161,7 @@ Mat harrisPoints(Mat &src) {
     ////////////////////////////////////////////
     
     //llamar a orientation
+    orientation(src_gray, levels, hpoints);
     
     src_gray.copyTo(out);
     cvtColor(out, out, CV_GRAY2RGB, 3);
@@ -170,7 +172,7 @@ Mat harrisPoints(Mat &src) {
         for (int i = 0; i < 4; i++)
             line(out, vertices[i], vertices[(i+1)%4], Scalar(0,255,0));
         
-        float angle = hpoints[i].angle * CV_PI / 180.0;
+        float angle = 180 + hpoints[i].angle / CV_PI * 180.0;
         int length = 6*hpoints[i].level;
         float x2 = (hpoints[i].x * hpoints[i].level) + length * cos(angle);
         float y2 = (hpoints[i].y * hpoints[i].level) + length * sin(angle);
@@ -221,16 +223,39 @@ void subpixelRef(vector<hpoint> &hpoints, int num_points, vector<Mat> &pyramid) 
     }
 }
 
-void orientation() {
+void orientation(Mat &src, int levels, vector<hpoint> hpoints) {
+    
+    vector<Mat> pyramid;
+    pyramid = gaussPyramid(src, levels);
+    
+    vector<Mat> gradx, grady;
+    Mat gx, gy, agx, agy, g;
     
     
+    //Mat gradx, grady, abs_gradx, abs_grady, grad;
     
+    //for(int i = 0; i < levels; i++) {
+        
+        Sobel( src, gx, CV_16S, 1, 0, 5);
+        convertScaleAbs( gx, agx);
+        
+        Sobel( src, gy, CV_16S, 0, 1, 5);
+        convertScaleAbs( gy, agy );
+        
+        //addWeighted( agx, 0.5, agy, 0.5, 0, grad );
+        //gradx.push_back(gx);
+        //grady.push_back(gy);
+        
+    //}
     
-    
-    
-    
-    
-    
+    for(int i = 0; i < hpoints.size(); i++) {
+        
+        double rad = atan2(agy.at<uchar>(hpoints[i].y, hpoints[i].x), agx.at<uchar>(hpoints[i].y, hpoints[i].x));
+        //float deg = 180 + rad /
+        cout << rad << endl;
+        hpoints[i].angle = rad;
+        
+    }
     
 }
 
@@ -339,6 +364,44 @@ void matchesSift(Mat &src, Mat &src1) {
     
 }
 
+void mosaic(Mat &src, Mat &src1) {
+    
+    Mat src_gray, src1_gray;
+    cvtColor(src, src_gray, COLOR_BGR2GRAY);
+    cvtColor(src1, src1_gray, COLOR_BGR2GRAY);
+    
+    SIFT sift;
 
+    vector<KeyPoint> kp, kp1;
+    Mat descriptor, descriptor1;
+    
+    sift(src_gray, Mat(), kp, descriptor, false);
+    sift(src1_gray, Mat(), kp1, descriptor1, false);
+    
+    BFMatcher matcher( NORM_L2, true );
+    vector<DMatch> matches;
+
+    matcher.match( descriptor, descriptor1, matches );
+
+    vector<Point2f> im1, im2;
+    
+    for( int i = 0; i < matches.size(); i++ ) {
+        im1.push_back( kp[ matches[i].queryIdx ].pt );
+        im2.push_back( kp1[ matches[i].trainIdx ].pt );
+    }
+    
+    Mat homography = findHomography(im1, im2);
+    
+    Mat out;
+    out = out.zeros(src_gray.rows * 2, src_gray.cols * 2, src_gray.type());
+    
+    warpPerspective(src, out, homography, Size(src.cols+src1.cols,src1.rows));
+    
+    Mat half(out , Rect(0, 0, src1.cols, src1.rows));
+    src1.copyTo(half);
+    
+    showIM(out, "mosaic");
+    
+}
 
 

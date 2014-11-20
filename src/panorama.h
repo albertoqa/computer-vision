@@ -35,6 +35,8 @@ void drawSIFT(Mat &src);
 void drawSURF(Mat &src);
 void matchesSurf(Mat &src, Mat &src1);
 void matchesSift(Mat &src, Mat &src1);
+void mosaic(Mat &src, Mat &src1);
+void orientation(Mat &src, int levels, vector<hpoint> hpoints);
 
 
 #endif /* defined(__computer_vision__panorama__) */

@@ -35,11 +35,13 @@ int main (int argc, const char * argv[])
     
     dst = harrisPoints(src);
 
-    drawSIFT(src);
-    drawSURF(src);
+    //drawSIFT(src);
+    //drawSURF(src);
     
-    matchesSurf(src, src1);
-    matchesSift(src, src1);
+    //matchesSurf(src, src1);
+    //matchesSift(src, src1);
+    
+    //mosaic(src, src1);
 
     
 }
