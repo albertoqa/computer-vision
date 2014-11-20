@@ -10,7 +10,7 @@
 #include "aux.h"
 #include <math.h>
 
-
+// funcion to show an image
 void showIM(Mat &src, string windowName){
     
     namedWindow(windowName, CV_WINDOW_AUTOSIZE);
@@ -20,21 +20,26 @@ void showIM(Mat &src, string windowName){
     
 }
 
+// compare the harris value of two given points
 bool compareValue(const hpoint &v1, const hpoint &v2) {
     return v1.value > v2.value;
 }
 
+// calculate the harris value
 float harrisValue(float k, float x, float y) {
     return ((x*y) - k*pow(x+y, 2));
 }
 
+// non max supression function
 void supNonMax(Mat &Mc, Mat &binary_maximum, int window) {
     
+    // window must be odd
     if(window%2 == 0)
         window++;
     if(window < 3)
         window = 3;
     
+    // center of the window
     int centrox, centroy;
     centrox = window/2;
     centroy = window/2;
@@ -47,8 +52,9 @@ void supNonMax(Mat &Mc, Mat &binary_maximum, int window) {
     for(int i = centrox; i < tamx; i++) {
         for(int j = centroy; j < tamy; j++) {
             
+            // only check if maximum if value is 255
             if(binary_maximum.at<float>(i,j) == 255) {
-                //cout << i << "  " << j << endl;
+
                 bool max = false;
                 double max_val;
                 
@@ -57,15 +63,17 @@ void supNonMax(Mat &Mc, Mat &binary_maximum, int window) {
                 Mat ROI_bin = binary_maximum( Rect(j-window/2, i-window/2, window, window) );
                 minMaxLoc(ROI_Mc, NULL, &max_val);
                 
+                // if center is maximum of the window, then keep it
                 if(float(max_val) == Mc.at<float>(i,j))
                     max = true;
                 
                 if(max) {
-                    //ponerl su alrededor a 0
+                    // put everything to 0 except the center
                     ROI_bin = 0.0;
                     ROI_bin.at<float>(centrox,centroy) = 255;
                 }
                 else {
+                    // if it is non max put it to 0
                     binary_maximum.at<float>(i,j) = 0;
                 }
             }
@@ -74,7 +82,7 @@ void supNonMax(Mat &Mc, Mat &binary_maximum, int window) {
     
     ////////////////////////////////////////////
 
-    //tengo que poner a cero los bordes
+    // put borders to 0
     for(int i = 0; i < window/2; i++)
         for(int j = 0; j < binary_maximum.cols; j++)
             binary_maximum.at<float>(i,j) = 0;
@@ -90,7 +98,7 @@ void supNonMax(Mat &Mc, Mat &binary_maximum, int window) {
     
 }
 
-
+// calculate harris points of a given image
 Mat harrisPoints(Mat &src) {
     
     Mat src_gray, myHarris_dst, myHarris_copy, Mc, out;
@@ -98,6 +106,7 @@ Mat harrisPoints(Mat &src) {
     vector<Mat> vMc, pyramid;
     hpoint paux;
     
+    // convert image to grayscale
     cvtColor( src, src_gray, COLOR_BGR2GRAY );
 
     int levels = 2, blocksize = 3, ksize = 5, num_points = 1000;
@@ -105,8 +114,10 @@ Mat harrisPoints(Mat &src) {
     
     ////////////////////////////////////////////
     
+    // gaussian pyramid of l levels
     pyramid = gaussPyramid(src_gray, levels);
     
+    // for each level calculate the harris matrix
     for(int l = 0; l < levels; l++) {
         
         myHarris_dst = Mat::zeros( pyramid[l].size(), CV_32FC(6) );
@@ -128,6 +139,7 @@ Mat harrisPoints(Mat &src) {
     
     ////////////////////////////////////////////
     
+    // for each level implement the non maximal supression and fill the hpoint data
     for(int l = 0; l < levels; l++) {
         Mat binary_maximum (vMc[l].rows, vMc[l].cols, vMc[l].type(), Scalar::all(255));
         supNonMax(vMc[l], binary_maximum, 7);
@@ -145,12 +157,15 @@ Mat harrisPoints(Mat &src) {
         }
     }
     
+    // sort the points acording to its harris value
     sort(hpoints.begin(), hpoints.end(), compareValue);
     
+    // implement the subpixel aproximation
     subpixelRef(hpoints, num_points, pyramid);
     
     ////////////////////////////////////////////
     
+    // draw the image with circles in the best harris points
     src_gray.copyTo(out);
     cvtColor(out, out, CV_GRAY2RGB, 3);
     for(int i = 0; i < num_points; i++) {
@@ -163,6 +178,7 @@ Mat harrisPoints(Mat &src) {
     //llamar a orientation
     orientation(src_gray, levels, hpoints);
     
+    // draw image with squares in the best harris points oriented to the gradient direction
     src_gray.copyTo(out);
     cvtColor(out, out, CV_GRAY2RGB, 3);
     for(int i = 0; i < num_points; i++) {
@@ -192,7 +208,7 @@ Mat harrisPoints(Mat &src) {
     
 }
 
-
+// sub pixel aproximation
 void subpixelRef(vector<hpoint> &hpoints, int num_points, vector<Mat> &pyramid) {
     
     vector<Point2f> corners;
@@ -220,27 +236,26 @@ void subpixelRef(vector<hpoint> &hpoints, int num_points, vector<Mat> &pyramid) 
                 c++;
             }
         }
+        
+        //corners.erase(corners.begin(), corners.end());
     }
 }
 
+// orientation of the gradient
 void orientation(Mat &src, int levels, vector<hpoint> hpoints) {
     
-    vector<Mat> pyramid;
-    pyramid = gaussPyramid(src, levels);
+    //vector<Mat> pyramid;
+    //pyramid = gaussPyramid(src, levels);
     
-    vector<Mat> gradx, grady;
-    Mat gx, gy, agx, agy, g;
+    Mat gx, gy, agx, agy;
     
+    // gradient x
+    Sobel( src, gx, CV_16S, 1, 0, 5);
+    convertScaleAbs( gx, agx);
     
-    //Mat gradx, grady, abs_gradx, abs_grady, grad;
-    
-    //for(int i = 0; i < levels; i++) {
-        
-        Sobel( src, gx, CV_16S, 1, 0, 5);
-        convertScaleAbs( gx, agx);
-        
-        Sobel( src, gy, CV_16S, 0, 1, 5);
-        convertScaleAbs( gy, agy );
+    // gradient y
+    Sobel( src, gy, CV_16S, 0, 1, 5);
+    convertScaleAbs( gy, agy );
         
         //addWeighted( agx, 0.5, agy, 0.5, 0, grad );
         //gradx.push_back(gx);
@@ -252,14 +267,14 @@ void orientation(Mat &src, int levels, vector<hpoint> hpoints) {
         
         double rad = atan2(agy.at<uchar>(hpoints[i].y, hpoints[i].x), agx.at<uchar>(hpoints[i].y, hpoints[i].x));
         //float deg = 180 + rad /
-        cout << rad << endl;
+        //cout << rad << endl;
         hpoints[i].angle = rad;
         
     }
     
 }
 
-
+// sift detector
 void drawSIFT(Mat &src) {
     
     Mat src_gray, out;
@@ -277,6 +292,7 @@ void drawSIFT(Mat &src) {
     
 }
 
+// surf detector
 void drawSURF(Mat &src) {
     
     Mat src_gray, out;
@@ -295,7 +311,7 @@ void drawSURF(Mat &src) {
     
 }
 
-
+// matching points using the surf detector
 void matchesSurf(Mat &src, Mat &src1) {
     
     Mat src_gray, src1_gray;
@@ -307,15 +323,14 @@ void matchesSurf(Mat &src, Mat &src1) {
     vector<KeyPoint> kp, kp1;
     Mat descriptor, descriptor1;
     
-    surf(src_gray, Mat(), kp, descriptor, false);
-    surf(src1_gray, Mat(), kp1, descriptor1, false);
+    surf(src_gray, Mat(), kp, descriptor);
+    surf(src1_gray, Mat(), kp1, descriptor1);
     
+    //crosscheck = true and bruteforce
     BFMatcher matcher( NORM_L2, true );
     vector<DMatch> matches;
     
     matcher.match( descriptor, descriptor1, matches );
-    
-    //cout << matches.size();
     
     //pinto solo 20 puntos
     int size = matches.size();
@@ -330,6 +345,7 @@ void matchesSurf(Mat &src, Mat &src1) {
     
 }
 
+// matching points using the sift detector
 void matchesSift(Mat &src, Mat &src1) {
     
     Mat src_gray, src1_gray;
@@ -344,13 +360,12 @@ void matchesSift(Mat &src, Mat &src1) {
     sift(src_gray, Mat(), kp, descriptor, false);
     sift(src1_gray, Mat(), kp1, descriptor1, false);
     
+    //crosscheck = true and bruteforce
     BFMatcher matcher( NORM_L2, true );
     vector<DMatch> matches;
     
     matcher.match( descriptor, descriptor1, matches );
-    
-    //cout << matches.size();
-    
+        
     //pinto solo 20 puntos
     int size = matches.size();
     
