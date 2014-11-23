@@ -186,9 +186,11 @@ Mat harrisPoints(Mat &src) {
         Point2f vertices[4];
         r.points(vertices);
         for (int i = 0; i < 4; i++)
+            
             line(out, vertices[i], vertices[(i+1)%4], Scalar(0,255,0));
         
-        float angle = 180 + hpoints[i].angle / CV_PI * 180.0;
+        //float angle = 180 + hpoints[i].angle / CV_PI * 180.0;
+        float angle = hpoints[i].angle;
         int length = 6*hpoints[i].level;
         float x2 = (hpoints[i].x * hpoints[i].level) + length * cos(angle);
         float y2 = (hpoints[i].y * hpoints[i].level) + length * sin(angle);
@@ -251,11 +253,11 @@ void orientation(Mat &src, int levels, vector<hpoint> hpoints) {
     
     // gradient x
     Sobel( src, gx, CV_16S, 1, 0, 5);
-    convertScaleAbs( gx, agx);
+    //convertScaleAbs( gx, agx);
     
     // gradient y
     Sobel( src, gy, CV_16S, 0, 1, 5);
-    convertScaleAbs( gy, agy );
+    //convertScaleAbs( gy, agy );
         
         //addWeighted( agx, 0.5, agy, 0.5, 0, grad );
         //gradx.push_back(gx);
@@ -265,7 +267,7 @@ void orientation(Mat &src, int levels, vector<hpoint> hpoints) {
     
     for(int i = 0; i < hpoints.size(); i++) {
         
-        double rad = atan2(agy.at<uchar>(hpoints[i].y, hpoints[i].x), agx.at<uchar>(hpoints[i].y, hpoints[i].x));
+        double rad = atan((gy.at<double>(hpoints[i].x, hpoints[i].y) / gx.at<double>(hpoints[i].x, hpoints[i].y)) * (180/CV_PI));
         //float deg = 180 + rad /
         //cout << rad << endl;
         hpoints[i].angle = rad;
